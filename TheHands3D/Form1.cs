@@ -102,6 +102,30 @@ namespace TheHands3D
 				drawBoard_Resized(sender, e);
 			}
 		}
+
+		private void drawBoard_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.KeyCode == Keys.Left)
+			{
+				camera.RotateLeft();
+				drawBoard_Resized(sender, e);
+			}
+			else if (e.KeyCode == Keys.Right)
+			{
+				camera.RotateRight();
+				drawBoard_Resized(sender, e);
+			}
+			else if (e.KeyCode == Keys.Up)
+			{
+				camera.RotateUp();
+				drawBoard_Resized(sender, e);
+			}
+			else if (e.KeyCode == Keys.Down)
+			{
+				camera.RotateDown();
+				drawBoard_Resized(sender, e);
+			}
+		}
 	}
 
 	public class Camera
@@ -153,6 +177,50 @@ namespace TheHands3D
 		{
 			//Hàm thu nhỏ (di chuyển camera ra xa điểm nhìn)
 			radius += 0.2;
+			ReCalc();
+		}
+
+		public void RotateLeft()
+		{
+			//Hàm xoay camera sang trái (quanh điểm nhìn)
+			alpha -= 1.0;
+			if (alpha < 0)
+				alpha += 360;
+			else if (alpha > 360)
+				alpha -= 360;
+			ReCalc();
+		}
+
+		public void RotateRight()
+		{
+			//Hàm xoay camera sang phải (quanh điểm nhìn)
+			alpha += 1.0;
+			if (alpha < 0)
+				alpha += 360;
+			else if (alpha > 360)
+				alpha -= 360;
+			ReCalc();
+		}
+
+		public void RotateUp()
+		{
+			//Hàm xoay camera lên trên (quanh điểm nhìn)
+			theta += 1.0;
+			if (theta < 0)
+				theta += 360;
+			else if (theta > 360)
+				theta -= 360;
+			ReCalc();
+		}
+
+		public void RotateDown()
+		{
+			//Hàm xoay camera xuống dưới (quanh điểm nhìn)
+			theta -= 1.0;
+			if (theta < 0)
+				theta += 360;
+			else if (theta > 360)
+				theta -= 360;
 			ReCalc();
 		}
 	}

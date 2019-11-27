@@ -49,6 +49,7 @@
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
 			this.drawBoard.Resized += new System.EventHandler(this.drawBoard_Resized);
 			this.drawBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.drawBoard_KeyDown);
+			this.drawBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.drawBoard_PreviewKeyDown);
 			// 
 			// mainForm
 			// 
