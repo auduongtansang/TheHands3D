@@ -13,6 +13,8 @@ namespace TheHands3D
 {
 	public partial class mainForm : Form
 	{
+		Camera camera = new Camera();
+
 		public mainForm()
 		{
 			InitializeComponent();
@@ -52,9 +54,9 @@ namespace TheHands3D
 			gl.LoadIdentity();
 			gl.LookAt
 			(
-				5, 5, 5,
-				0, 0, 0,
-				0, 1, 0
+				camera.camX, camera.camY, camera.camZ,
+				camera.cenX, camera.cenY, camera.cenZ,
+				camera.upX, camera.upY, camera.upZ
 			);
 		}
 
@@ -82,6 +84,24 @@ namespace TheHands3D
 			gl.End();
 
 			gl.Flush();
+		}
+	}
+
+	public class Camera
+	{
+		//Tọa độ đặt camera
+		public double camX, camY, camZ;
+		//Tọa độ nhìn
+		public double cenX, cenY, cenZ;
+		//Vector up
+		public double upX, upY, upZ;
+
+		public Camera()
+		{
+			camX = camY = camZ = 5.0;
+			cenX = cenY = cenZ = 0.0;
+			upX = upZ = 0.0;
+			upY = 1.0;
 		}
 	}
 }
