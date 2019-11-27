@@ -67,6 +67,9 @@ namespace TheHands3D
 			//Lấy đối tượng OpenGL
 			OpenGL gl = drawBoard.OpenGL;
 
+			//Xóa toàn bộ drawBoard
+			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+
 			//Vẽ 3 trục tọa độ
 			gl.Begin(OpenGL.GL_LINES);
 				//Trục Ox
@@ -85,6 +88,20 @@ namespace TheHands3D
 
 			gl.Flush();
 		}
+
+		private void drawBoard_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Z)
+			{
+				camera.ZoomIn();
+				drawBoard_Resized(sender, e);
+			}
+			else if (e.KeyCode == Keys.X)
+			{
+				camera.ZoomOut();
+				drawBoard_Resized(sender, e);
+			}
+		}
 	}
 
 	public class Camera
@@ -96,12 +113,47 @@ namespace TheHands3D
 		//Vector up
 		public double upX, upY, upZ;
 
+		//Tọa độ cầu của camera
+		double radius;
+		double alpha, theta;
+
 		public Camera()
 		{
-			camX = camY = camZ = 5.0;
+			radius = 10.0;
+			alpha = 45.0;
+			theta = 30.0;
+
+			ReCalc();
 			cenX = cenY = cenZ = 0.0;
-			upX = upZ = 0.0;
-			upY = 1.0;
+			upX = upY = 0.0;
+			upZ = 1.0;
+		}
+
+		void ReCalc()
+		{
+			//Hàm tính lại tọa độ camera sau khi di chuyển
+			camX = radius * Math.Cos(alpha * Math.PI / 180.0) * Math.Cos(theta * Math.PI / 180.0);
+			camY = radius * Math.Sin(alpha * Math.PI / 180.0) * Math.Cos(theta * Math.PI / 180.0);
+			camZ = radius * Math.Sin(theta * Math.PI / 180.0);
+
+			if (90 < theta && theta <= 270)
+				upZ = -1.0;
+			else
+				upZ = 1.0;
+		}
+
+		public void ZoomIn()
+		{
+			//Hàm phóng to (di chuyển camera lại gần điểm nhìn)
+			radius -= 0.2;
+			ReCalc();
+		}
+
+		public void ZoomOut()
+		{
+			//Hàm thu nhỏ (di chuyển camera ra xa điểm nhìn)
+			radius += 0.2;
+			ReCalc();
 		}
 	}
 }
