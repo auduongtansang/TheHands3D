@@ -1,5 +1,7 @@
 ﻿using SharpGL;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TheHands3D
@@ -7,6 +9,7 @@ namespace TheHands3D
 	public partial class mainForm : Form
 	{
 		Camera camera = new Camera();
+		Cube cube = new Cube();
 
 		public mainForm()
 		{
@@ -64,6 +67,7 @@ namespace TheHands3D
 			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
 			//Vẽ 3 trục tọa độ
+			gl.LineWidth(3.0f);
 			gl.Begin(OpenGL.GL_LINES);
 				//Trục Ox
 				gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
@@ -78,6 +82,10 @@ namespace TheHands3D
 				gl.Vertex(0.0f, 0.0f, 0.0f);
 				gl.Vertex(0.0f, 0.0f, 10.0f);
 			gl.End();
+			gl.LineWidth(1.0f);
+
+			//Vẽ khối lập phương
+			cube.Draw(gl);
 
 			gl.Flush();
 		}
@@ -86,11 +94,13 @@ namespace TheHands3D
 		{
 			if (e.KeyCode == Keys.Z)
 			{
+				//Phím Z, di chuyển camera lại gần điểm nhìn
 				camera.ZoomIn();
 				drawBoard_Resized(sender, e);
 			}
 			else if (e.KeyCode == Keys.X)
 			{
+				//Phím X, di chuyển camera ra xa điểm nhìn
 				camera.ZoomOut();
 				drawBoard_Resized(sender, e);
 			}
@@ -100,24 +110,74 @@ namespace TheHands3D
 		{
 			if (e.KeyCode == Keys.Left)
 			{
+				//Phím mũi tên trái, xoay camera sang trái (quanh điểm nhìn)
 				camera.RotateLeft();
 				drawBoard_Resized(sender, e);
 			}
 			else if (e.KeyCode == Keys.Right)
 			{
+				//Phím mũi tên phải, xoay camera sang phải (quanh điểm nhìn)
 				camera.RotateRight();
 				drawBoard_Resized(sender, e);
 			}
 			else if (e.KeyCode == Keys.Up)
 			{
+				//Phím mũi tên lên, xoay camera lên trên (quanh điểm nhìn)
 				camera.RotateUp();
 				drawBoard_Resized(sender, e);
 			}
 			else if (e.KeyCode == Keys.Down)
 			{
+				//Phím mũi tên xuống, xoay camera xuống dưới (quanh điểm nhìn)
 				camera.RotateDown();
 				drawBoard_Resized(sender, e);
 			}
+		}
+	}
+
+	public class Cube
+	{
+		//Lớp "khối lập phương"
+
+		//Màu hình vẽ
+		public Color color;
+
+		//Tập đỉnh
+		public List<Tuple<double, double, double>> vertex;
+
+		//Tập thứ tự các đỉnh vẽ
+		public List<int> index;
+
+		public Cube()
+		{
+			color = Color.White;
+
+			//8 đỉnh
+			vertex = new List<Tuple<double, double, double>>();
+			vertex.Add(new Tuple<double, double, double>(0, 0, 0));
+			vertex.Add(new Tuple<double, double, double>(0, 2, 0));
+			vertex.Add(new Tuple<double, double, double>(2, 2, 0));
+			vertex.Add(new Tuple<double, double, double>(2, 0, 0));
+			vertex.Add(new Tuple<double, double, double>(0, 0, 2));
+			vertex.Add(new Tuple<double, double, double>(0, 2, 2));
+			vertex.Add(new Tuple<double, double, double>(2, 2, 2));
+			vertex.Add(new Tuple<double, double, double>(2, 0, 2));
+
+			//Thứ tự vẽ
+			index = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 1, 2, 6, 5, 0, 3, 7, 4 };
+		}
+
+		public void Draw(OpenGL gl)
+		{
+			//Vẽ khối lập phương
+			gl.Color(color.R, color.G, color.B, (byte)(50));
+
+			gl.Begin(OpenGL.GL_QUADS);
+
+			for (int i = 0; i < index.Count; i++)
+				gl.Vertex(vertex[index[i]].Item1, vertex[index[i]].Item2, vertex[index[i]].Item3);
+
+			gl.End();
 		}
 	}
 
