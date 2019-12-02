@@ -29,6 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.drawBoard = new SharpGL.OpenGLControl();
+			this.cbShape = new System.Windows.Forms.ComboBox();
+			this.lbChoosing = new System.Windows.Forms.Label();
+			this.btnColor = new System.Windows.Forms.Button();
+			this.colorDialog = new System.Windows.Forms.ColorDialog();
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -49,25 +53,65 @@
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
 			this.drawBoard.Resized += new System.EventHandler(this.drawBoard_Resized);
 			this.drawBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.drawBoard_KeyDown);
-			this.drawBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.drawBoard_PreviewKeyDown);
+			// 
+			// cbShape
+			// 
+			this.cbShape.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbShape.FormattingEnabled = true;
+			this.cbShape.Items.AddRange(new object[] {
+            "Cube",
+            "Pyramid",
+            "Prismatic"});
+			this.cbShape.Location = new System.Drawing.Point(103, 8);
+			this.cbShape.Name = "cbShape";
+			this.cbShape.Size = new System.Drawing.Size(121, 21);
+			this.cbShape.TabIndex = 1;
+			this.cbShape.SelectionChangeCommitted += new System.EventHandler(this.cbShape_SelectionChangeCommitted);
+			// 
+			// lbChoosing
+			// 
+			this.lbChoosing.AutoSize = true;
+			this.lbChoosing.Location = new System.Drawing.Point(10, 11);
+			this.lbChoosing.Name = "lbChoosing";
+			this.lbChoosing.Size = new System.Drawing.Size(87, 13);
+			this.lbChoosing.TabIndex = 2;
+			this.lbChoosing.Text = "Choose a shape:";
+			// 
+			// btnColor
+			// 
+			this.btnColor.Location = new System.Drawing.Point(230, 7);
+			this.btnColor.Name = "btnColor";
+			this.btnColor.Size = new System.Drawing.Size(75, 23);
+			this.btnColor.TabIndex = 3;
+			this.btnColor.Text = "Color";
+			this.btnColor.UseVisualStyleBackColor = true;
+			this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
 			// 
 			// mainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(668, 561);
+			this.Controls.Add(this.btnColor);
+			this.Controls.Add(this.lbChoosing);
+			this.Controls.Add(this.cbShape);
 			this.Controls.Add(this.drawBoard);
 			this.MinimumSize = new System.Drawing.Size(672, 568);
 			this.Name = "mainForm";
 			this.Text = "TheHands3D";
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
 		private SharpGL.OpenGLControl drawBoard;
+		private System.Windows.Forms.ComboBox cbShape;
+		private System.Windows.Forms.Label lbChoosing;
+		private System.Windows.Forms.Button btnColor;
+		private System.Windows.Forms.ColorDialog colorDialog;
 	}
 }
 

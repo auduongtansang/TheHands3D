@@ -13,6 +13,9 @@ namespace TheHands3D
 		Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
 		Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
 
+		Color userColor = Color.White;
+		Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
+
 		public mainForm()
 		{
 			InitializeComponent();
@@ -108,33 +111,53 @@ namespace TheHands3D
 				camera.ZoomOut();
 				drawBoard_Resized(sender, e);
 			}
-		}
-
-		private void drawBoard_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			if (e.KeyCode == Keys.Left)
+			else if (e.KeyCode == Keys.A)
 			{
-				//Phím mũi tên trái, xoay camera sang trái (quanh điểm nhìn)
+				//Phím A, xoay camera sang trái (quanh điểm nhìn)
 				camera.RotateLeft();
 				drawBoard_Resized(sender, e);
 			}
-			else if (e.KeyCode == Keys.Right)
+			else if (e.KeyCode == Keys.D)
 			{
-				//Phím mũi tên phải, xoay camera sang phải (quanh điểm nhìn)
+				//Phím D, xoay camera sang phải (quanh điểm nhìn)
 				camera.RotateRight();
 				drawBoard_Resized(sender, e);
 			}
-			else if (e.KeyCode == Keys.Up)
+			else if (e.KeyCode == Keys.W)
 			{
-				//Phím mũi tên lên, xoay camera lên trên (quanh điểm nhìn)
+				//Phím W, xoay camera lên trên (quanh điểm nhìn)
 				camera.RotateUp();
 				drawBoard_Resized(sender, e);
 			}
-			else if (e.KeyCode == Keys.Down)
+			else if (e.KeyCode == Keys.S)
 			{
-				//Phím mũi tên xuống, xoay camera xuống dưới (quanh điểm nhìn)
+				//Phím S, xoay camera xuống dưới (quanh điểm nhìn)
 				camera.RotateDown();
 				drawBoard_Resized(sender, e);
+			}
+		}
+
+		private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			if (cbShape.SelectedIndex == 0)
+				choosingShape = Shape.ShapeType.CUBE;
+			else if (cbShape.SelectedIndex == 1)
+				choosingShape = Shape.ShapeType.PYRAMID;
+			else if (cbShape.SelectedIndex == 2)
+				choosingShape = Shape.ShapeType.PRISMATIC;
+		}
+
+		private void btnColor_Click(object sender, EventArgs e)
+		{
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				userColor = colorDialog.Color;
+				if (choosingShape == Shape.ShapeType.CUBE)
+					cube.color = userColor;
+				else if (choosingShape == Shape.ShapeType.PYRAMID)
+					pyramid.color = userColor;
+				else if (choosingShape == Shape.ShapeType.PRISMATIC)
+					prismatic.color = userColor;
 			}
 		}
 	}
@@ -143,7 +166,7 @@ namespace TheHands3D
 	{
 		//Lớp "hình vẽ"
 
-		public enum ShapeType { CUBE, PYRAMID, PRISMATIC };
+		public enum ShapeType { NONE, CUBE, PYRAMID, PRISMATIC };
 
 		//Loại hình vẽ
 		ShapeType type;
