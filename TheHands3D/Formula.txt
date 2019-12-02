@@ -1,0 +1,23 @@
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 - a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 + a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 + a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 - a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 - a / 2, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 + a / 2, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 + a / 2, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 - a / 2, h));
+
+
+vertex.Add(new Tuple<double, double, double>(center.Item1, center.Item2, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 - a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 + a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 + a / 2, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 - a / 2, 0));
+
+
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 - a * Math.Sqrt(3) / 6, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1, center.Item2 + a * Math.Sqrt(3) / 3, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 - a * Math.Sqrt(3) / 6, 0));
+vertex.Add(new Tuple<double, double, double>(center.Item1 - a / 2, center.Item2 - a * Math.Sqrt(3) / 6, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1, center.Item2 + a * Math.Sqrt(3) / 3, h));
+vertex.Add(new Tuple<double, double, double>(center.Item1 + a / 2, center.Item2 - a * Math.Sqrt(3) / 6, h));
