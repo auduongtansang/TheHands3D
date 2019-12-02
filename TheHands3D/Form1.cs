@@ -9,7 +9,7 @@ namespace TheHands3D
 	public partial class mainForm : Form
 	{
 		Camera camera = new Camera();
-		Cube cube = new Cube();
+		Shape cube = new Shape(Shape.ShapeType.CUBE);
 
 		public mainForm()
 		{
@@ -135,9 +135,14 @@ namespace TheHands3D
 		}
 	}
 
-	public class Cube
+	public class Shape
 	{
-		//Lớp "khối lập phương"
+		//Lớp "hình vẽ"
+
+		public enum ShapeType { CUBE, PYRAMID, PRISMATIC };
+
+		//Loại hình vẽ
+		ShapeType type;
 
 		//Màu hình vẽ
 		public Color color;
@@ -148,36 +153,43 @@ namespace TheHands3D
 		//Tập thứ tự các đỉnh vẽ
 		public List<int> index;
 
-		public Cube()
+		public Shape(ShapeType userType)
 		{
+			type = userType;
 			color = Color.White;
 
-			//8 đỉnh
-			vertex = new List<Tuple<double, double, double>>();
-			vertex.Add(new Tuple<double, double, double>(0, 0, 0));
-			vertex.Add(new Tuple<double, double, double>(0, 2, 0));
-			vertex.Add(new Tuple<double, double, double>(2, 2, 0));
-			vertex.Add(new Tuple<double, double, double>(2, 0, 0));
-			vertex.Add(new Tuple<double, double, double>(0, 0, 2));
-			vertex.Add(new Tuple<double, double, double>(0, 2, 2));
-			vertex.Add(new Tuple<double, double, double>(2, 2, 2));
-			vertex.Add(new Tuple<double, double, double>(2, 0, 2));
+			if (type == ShapeType.CUBE)
+			{
+				//Khối lập phương, 8 đỉnh
+				vertex = new List<Tuple<double, double, double>>();
+				vertex.Add(new Tuple<double, double, double>(0, 0, 0));
+				vertex.Add(new Tuple<double, double, double>(0, 2, 0));
+				vertex.Add(new Tuple<double, double, double>(2, 2, 0));
+				vertex.Add(new Tuple<double, double, double>(2, 0, 0));
+				vertex.Add(new Tuple<double, double, double>(0, 0, 2));
+				vertex.Add(new Tuple<double, double, double>(0, 2, 2));
+				vertex.Add(new Tuple<double, double, double>(2, 2, 2));
+				vertex.Add(new Tuple<double, double, double>(2, 0, 2));
 
-			//Thứ tự vẽ
-			index = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 1, 2, 6, 5, 0, 3, 7, 4 };
+				//Thứ tự vẽ
+				index = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 1, 2, 6, 5, 0, 3, 7, 4 };
+			}
 		}
 
 		public void Draw(OpenGL gl)
 		{
-			//Vẽ khối lập phương
-			gl.Color(color.R, color.G, color.B, (byte)(50));
+			if (type == ShapeType.CUBE)
+			{
+				//Vẽ khối lập phương
+				gl.Color(color.R, color.G, color.B, (byte)(50));
 
-			gl.Begin(OpenGL.GL_QUADS);
+				gl.Begin(OpenGL.GL_QUADS);
 
-			for (int i = 0; i < index.Count; i++)
-				gl.Vertex(vertex[index[i]].Item1, vertex[index[i]].Item2, vertex[index[i]].Item3);
+				for (int i = 0; i < index.Count; i++)
+					gl.Vertex(vertex[index[i]].Item1, vertex[index[i]].Item2, vertex[index[i]].Item3);
 
-			gl.End();
+				gl.End();
+			}
 		}
 	}
 
