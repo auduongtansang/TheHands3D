@@ -112,6 +112,7 @@
 		private System.Windows.Forms.Label lbChoosing;
 		private System.Windows.Forms.Button btnColor;
 		private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }
 
