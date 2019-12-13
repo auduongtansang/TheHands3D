@@ -86,6 +86,17 @@ namespace TheHands3D
 				gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
 				gl.Vertex(0.0f, 0.0f, 0.0f);
 				gl.Vertex(0.0f, 0.0f, 10.0f);
+				// Mặt phẳng đáy
+                		for (int i = 0; i <= 14; i++)
+                		{
+                    			if (i == 0 || i == 7 || i == 14) gl.Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    			else gl.Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+                    			gl.Vertex(-14.0f + 2*i, -14.0f, 0.0f);
+                    			gl.Vertex(-14.0f + 2*i, 14.0f, 0.0f);
+                    			gl.Vertex(-14.0f, -14.0f + 2*i, 0.0f);
+                    			gl.Vertex(14.0f, -14.0f + 2*i, 0.0f);
+                		}
 			gl.End();
 			gl.LineWidth(1.0f);
 
