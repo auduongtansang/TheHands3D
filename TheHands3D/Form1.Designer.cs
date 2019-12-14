@@ -42,12 +42,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.drawBoard.DrawFPS = false;
-			this.drawBoard.Location = new System.Drawing.Point(0, 37);
+			this.drawBoard.Location = new System.Drawing.Point(0, 46);
+			this.drawBoard.Margin = new System.Windows.Forms.Padding(5);
 			this.drawBoard.Name = "drawBoard";
 			this.drawBoard.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
 			this.drawBoard.RenderContextType = SharpGL.RenderContextType.DIBSection;
 			this.drawBoard.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-			this.drawBoard.Size = new System.Drawing.Size(668, 488);
+			this.drawBoard.Size = new System.Drawing.Size(891, 601);
 			this.drawBoard.TabIndex = 0;
 			this.drawBoard.OpenGLInitialized += new System.EventHandler(this.drawBoard_OpenGLInitialized);
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
@@ -62,26 +63,29 @@
             "Cube",
             "Pyramid",
             "Prismatic"});
-			this.cbShape.Location = new System.Drawing.Point(103, 8);
+			this.cbShape.Location = new System.Drawing.Point(137, 10);
+			this.cbShape.Margin = new System.Windows.Forms.Padding(4);
 			this.cbShape.Name = "cbShape";
-			this.cbShape.Size = new System.Drawing.Size(121, 21);
+			this.cbShape.Size = new System.Drawing.Size(160, 24);
 			this.cbShape.TabIndex = 1;
 			this.cbShape.SelectionChangeCommitted += new System.EventHandler(this.cbShape_SelectionChangeCommitted);
 			// 
 			// lbChoosing
 			// 
 			this.lbChoosing.AutoSize = true;
-			this.lbChoosing.Location = new System.Drawing.Point(10, 11);
+			this.lbChoosing.Location = new System.Drawing.Point(13, 14);
+			this.lbChoosing.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbChoosing.Name = "lbChoosing";
-			this.lbChoosing.Size = new System.Drawing.Size(87, 13);
+			this.lbChoosing.Size = new System.Drawing.Size(115, 17);
 			this.lbChoosing.TabIndex = 2;
 			this.lbChoosing.Text = "Choose a shape:";
 			// 
 			// btnColor
 			// 
-			this.btnColor.Location = new System.Drawing.Point(230, 7);
+			this.btnColor.Location = new System.Drawing.Point(307, 9);
+			this.btnColor.Margin = new System.Windows.Forms.Padding(4);
 			this.btnColor.Name = "btnColor";
-			this.btnColor.Size = new System.Drawing.Size(75, 23);
+			this.btnColor.Size = new System.Drawing.Size(100, 28);
 			this.btnColor.TabIndex = 3;
 			this.btnColor.Text = "Color";
 			this.btnColor.UseVisualStyleBackColor = true;
@@ -89,14 +93,15 @@
 			// 
 			// mainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(668, 561);
+			this.ClientSize = new System.Drawing.Size(891, 690);
 			this.Controls.Add(this.btnColor);
 			this.Controls.Add(this.lbChoosing);
 			this.Controls.Add(this.cbShape);
 			this.Controls.Add(this.drawBoard);
-			this.MinimumSize = new System.Drawing.Size(672, 568);
+			this.Margin = new System.Windows.Forms.Padding(4);
+			this.MinimumSize = new System.Drawing.Size(890, 688);
 			this.Name = "mainForm";
 			this.Text = "TheHands3D";
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).EndInit();

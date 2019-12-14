@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SharpGL.SceneGraph.Assets;
 
 namespace TheHands3D
 {
@@ -170,5 +171,6 @@ namespace TheHands3D
 					prismatic.color = userColor;
 			}
 		}
+
 	}
 }
