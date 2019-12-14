@@ -48,7 +48,7 @@
 			this.drawBoard.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
 			this.drawBoard.RenderContextType = SharpGL.RenderContextType.DIBSection;
 			this.drawBoard.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-			this.drawBoard.Size = new System.Drawing.Size(891, 601);
+			this.drawBoard.Size = new System.Drawing.Size(898, 630);
 			this.drawBoard.TabIndex = 0;
 			this.drawBoard.OpenGLInitialized += new System.EventHandler(this.drawBoard_OpenGLInitialized);
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
@@ -62,7 +62,8 @@
 			this.cbShape.Items.AddRange(new object[] {
             "Cube",
             "Pyramid",
-            "Prismatic"});
+            "Prismatic",
+            "None"});
 			this.cbShape.Location = new System.Drawing.Point(137, 10);
 			this.cbShape.Margin = new System.Windows.Forms.Padding(4);
 			this.cbShape.Name = "cbShape";
@@ -95,7 +96,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(891, 690);
+			this.ClientSize = new System.Drawing.Size(899, 690);
 			this.Controls.Add(this.btnColor);
 			this.Controls.Add(this.lbChoosing);
 			this.Controls.Add(this.cbShape);

@@ -14,6 +14,10 @@ namespace TheHands3D
 		Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
 		Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
 
+		AffineTransform3D transform = new AffineTransform3D();
+		//Vector tịnh tiến
+		double dx, dy, dz;
+
 		Color userColor = Color.White;
 		Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
 
@@ -87,6 +91,18 @@ namespace TheHands3D
 				gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
 				gl.Vertex(0.0f, 0.0f, 0.0f);
 				gl.Vertex(0.0f, 0.0f, 10.0f);
+
+				//Mặt phẳng đáy
+				for (int i = 0; i <= 14; i++)
+				{
+					if (i == 0 || i == 7 || i == 14) gl.Color(1.0f, 1.0f, 1.0f, 1.0f);
+					else gl.Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+					gl.Vertex(-14.0f + 2 * i, -14.0f, 0.0f);
+					gl.Vertex(-14.0f + 2 * i, 14.0f, 0.0f);
+					gl.Vertex(-14.0f, -14.0f + 2 * i, 0.0f);
+					gl.Vertex(14.0f, -14.0f + 2 * i, 0.0f);
+				}
 			gl.End();
 			gl.LineWidth(1.0f);
 
@@ -97,11 +113,23 @@ namespace TheHands3D
 
 			//Tô đậm cạnh của khối đang được chọn
 			if (choosingShape == Shape.ShapeType.CUBE)
+			{
 				cube.DrawEdge(gl);
+				pyramid.DrawEdge2(gl);
+				prismatic.DrawEdge2(gl);
+			}
 			else if (choosingShape == Shape.ShapeType.PYRAMID)
+			{
 				pyramid.DrawEdge(gl);
+				cube.DrawEdge2(gl);
+				prismatic.DrawEdge2(gl);
+			}
 			else if (choosingShape == Shape.ShapeType.PRISMATIC)
+			{
 				prismatic.DrawEdge(gl);
+				cube.DrawEdge2(gl);
+				pyramid.DrawEdge2(gl);
+			}
 
 			gl.Flush();
 		}
@@ -155,6 +183,8 @@ namespace TheHands3D
 				choosingShape = Shape.ShapeType.PYRAMID;
 			else if (cbShape.SelectedIndex == 2)
 				choosingShape = Shape.ShapeType.PRISMATIC;
+			else
+				choosingShape = Shape.ShapeType.NONE;
 		}
 
 		private void btnColor_Click(object sender, EventArgs e)
@@ -171,6 +201,5 @@ namespace TheHands3D
 					prismatic.color = userColor;
 			}
 		}
-
 	}
 }
