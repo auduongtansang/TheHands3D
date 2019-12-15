@@ -1,20 +1,8 @@
 ﻿using SharpGL;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Text;
-using System.Data;
-
 using SharpGL.SceneGraph.Assets;
-using SharpGL.SceneGraph;
-using SharpGL.SceneGraph.Lighting;
-using SharpGL.SceneGraph.Cameras;
-using SharpGL.SceneGraph.Collections;
-using SharpGL.SceneGraph.Core;
-using SharpGL.SceneGraph.Effects;
-using SharpGL.SceneGraph.Primitives;
 
 namespace TheHands3D
 {
@@ -110,7 +98,6 @@ namespace TheHands3D
 			//Vẽ các khối
 			if (EnableTextureCube == true)
 			{
-				//  Bind the texture.
 				Texturing texturing = new Texturing();
 				texturing.blindTexture(cube, texture, gl);
 			}
@@ -197,9 +184,15 @@ namespace TheHands3D
 			{
 				userColor = colorDialog.Color;
 				if (choosingShape == Shape.ShapeType.CUBE)
+				{
 					cube.color = userColor;
+					EnableTextureCube = false;
+				}
 				else if (choosingShape == Shape.ShapeType.PYRAMID)
+				{
 					pyramid.color = userColor;
+					EnableTexturePyramid = false;
+				}
 				else if (choosingShape == Shape.ShapeType.PRISMATIC)
 					prismatic.color = userColor;
 			}
@@ -237,8 +230,6 @@ namespace TheHands3D
 
 			//  Redraw.
 			drawBoard.Invalidate();
-
-
 
 		}
 	}
