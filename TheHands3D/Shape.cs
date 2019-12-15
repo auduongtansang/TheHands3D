@@ -139,7 +139,6 @@ namespace TheHands3D
 				//Khối lập phương
 				List<int> lineIndex = new List<int>() { 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 };
 
-				gl.Color(Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				gl.LineWidth(3.5f);
 
 				gl.Begin(OpenGL.GL_LINES);
@@ -153,7 +152,6 @@ namespace TheHands3D
 				//Khối chóp
 				List<int> lineIndex = new List<int>() { 1, 2, 2, 3, 3, 4, 4, 1, 0, 1, 0, 2, 0, 3, 0, 4 };
 
-				gl.Color(Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				gl.LineWidth(3.5f);
 
 				gl.Begin(OpenGL.GL_LINES);
@@ -167,8 +165,53 @@ namespace TheHands3D
 				//Khối lăng trụ
 				List<int> lineIndex = new List<int>() { 0, 1, 1, 2, 2, 0, 3, 4, 4, 5, 5, 3, 0, 3, 1, 4, 2, 5 };
 
-				gl.Color(Color.Orange.R, Color.Orange.G, Color.Orange.B);
 				gl.LineWidth(3.5f);
+
+				gl.Begin(OpenGL.GL_LINES);
+				for (int i = 0; i < lineIndex.Count; i++)
+					gl.Vertex(vertex[lineIndex[i]].Item1, vertex[lineIndex[i]].Item2, vertex[lineIndex[i]].Item3);
+				gl.End();
+				gl.LineWidth(1.0f);
+			}
+		}
+
+		public void DrawEdge2(OpenGL gl)
+		{
+			//Vẽ các cạnh
+			gl.Color(Color.Black.R, Color.Black.G, Color.Black.B);
+
+			if (type == ShapeType.CUBE)
+			{
+				//Khối lập phương
+				List<int> lineIndex = new List<int>() { 0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7 };
+
+				gl.LineWidth(1.5f);
+
+				gl.Begin(OpenGL.GL_LINES);
+				for (int i = 0; i < lineIndex.Count; i++)
+					gl.Vertex(vertex[lineIndex[i]].Item1, vertex[lineIndex[i]].Item2, vertex[lineIndex[i]].Item3);
+				gl.End();
+				gl.LineWidth(1.0f);
+			}
+			else if (type == ShapeType.PYRAMID)
+			{
+				//Khối chóp
+				List<int> lineIndex = new List<int>() { 1, 2, 2, 3, 3, 4, 4, 1, 0, 1, 0, 2, 0, 3, 0, 4 };
+
+				gl.LineWidth(1.5f);
+
+				gl.Begin(OpenGL.GL_LINES);
+				for (int i = 0; i < lineIndex.Count; i++)
+					gl.Vertex(vertex[lineIndex[i]].Item1, vertex[lineIndex[i]].Item2, vertex[lineIndex[i]].Item3);
+				gl.End();
+				gl.LineWidth(1.0f);
+			}
+			else if (type == ShapeType.PRISMATIC)
+			{
+				//Khối lăng trụ
+				List<int> lineIndex = new List<int>() { 0, 1, 1, 2, 2, 0, 3, 4, 4, 5, 5, 3, 0, 3, 1, 4, 2, 5 };
+
+				gl.LineWidth(1.5f);
 
 				gl.Begin(OpenGL.GL_LINES);
 				for (int i = 0; i < lineIndex.Count; i++)
