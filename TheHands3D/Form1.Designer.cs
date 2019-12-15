@@ -54,7 +54,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.drawBoard.DrawFPS = false;
 			this.drawBoard.Location = new System.Drawing.Point(0, 46);
-			this.drawBoard.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+			this.drawBoard.Margin = new System.Windows.Forms.Padding(5);
 			this.drawBoard.Name = "drawBoard";
 			this.drawBoard.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
 			this.drawBoard.RenderContextType = SharpGL.RenderContextType.DIBSection;
@@ -75,7 +75,7 @@
             "Pyramid",
             "Prismatic"});
 			this.cbShape.Location = new System.Drawing.Point(137, 10);
-			this.cbShape.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cbShape.Margin = new System.Windows.Forms.Padding(4);
 			this.cbShape.Name = "cbShape";
 			this.cbShape.Size = new System.Drawing.Size(160, 24);
 			this.cbShape.TabIndex = 1;
@@ -94,7 +94,7 @@
 			// btnColor
 			// 
 			this.btnColor.Location = new System.Drawing.Point(307, 9);
-			this.btnColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnColor.Margin = new System.Windows.Forms.Padding(4);
 			this.btnColor.Name = "btnColor";
 			this.btnColor.Size = new System.Drawing.Size(100, 28);
 			this.btnColor.TabIndex = 3;
@@ -121,7 +121,7 @@
             "Rotate",
             "Scale"});
 			this.cbTransformation.Location = new System.Drawing.Point(592, 10);
-			this.cbTransformation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cbTransformation.Margin = new System.Windows.Forms.Padding(4);
 			this.cbTransformation.Name = "cbTransformation";
 			this.cbTransformation.Size = new System.Drawing.Size(160, 24);
 			this.cbTransformation.TabIndex = 5;
@@ -129,7 +129,7 @@
 			// tbX
 			// 
 			this.tbX.Location = new System.Drawing.Point(815, 11);
-			this.tbX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tbX.Margin = new System.Windows.Forms.Padding(4);
 			this.tbX.Name = "tbX";
 			this.tbX.Size = new System.Drawing.Size(39, 22);
 			this.tbX.TabIndex = 6;
@@ -167,7 +167,7 @@
 			// tbY
 			// 
 			this.tbY.Location = new System.Drawing.Point(889, 11);
-			this.tbY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tbY.Margin = new System.Windows.Forms.Padding(4);
 			this.tbY.Name = "tbY";
 			this.tbY.Size = new System.Drawing.Size(39, 22);
 			this.tbY.TabIndex = 10;
@@ -175,7 +175,7 @@
 			// tbZ
 			// 
 			this.tbZ.Location = new System.Drawing.Point(964, 11);
-			this.tbZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tbZ.Margin = new System.Windows.Forms.Padding(4);
 			this.tbZ.Name = "tbZ";
 			this.tbZ.Size = new System.Drawing.Size(39, 22);
 			this.tbZ.TabIndex = 11;
@@ -183,7 +183,7 @@
 			// btnTransformation
 			// 
 			this.btnTransformation.Location = new System.Drawing.Point(1012, 9);
-			this.btnTransformation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnTransformation.Margin = new System.Windows.Forms.Padding(4);
 			this.btnTransformation.Name = "btnTransformation";
 			this.btnTransformation.Size = new System.Drawing.Size(100, 28);
 			this.btnTransformation.TabIndex = 12;
@@ -193,9 +193,10 @@
 			// 
 			// btnChooseImage
 			// 
-			this.btnChooseImage.Location = new System.Drawing.Point(36, 655);
+			this.btnChooseImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnChooseImage.Location = new System.Drawing.Point(964, 655);
 			this.btnChooseImage.Name = "btnChooseImage";
-			this.btnChooseImage.Size = new System.Drawing.Size(75, 23);
+			this.btnChooseImage.Size = new System.Drawing.Size(168, 33);
 			this.btnChooseImage.TabIndex = 13;
 			this.btnChooseImage.Text = "Choose Image";
 			this.btnChooseImage.UseVisualStyleBackColor = true;
@@ -224,7 +225,7 @@
 			this.Controls.Add(this.lbChoosing);
 			this.Controls.Add(this.cbShape);
 			this.Controls.Add(this.drawBoard);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MinimumSize = new System.Drawing.Size(890, 686);
 			this.Name = "mainForm";
 			this.Text = "TheHands3D";

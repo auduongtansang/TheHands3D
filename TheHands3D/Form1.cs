@@ -126,6 +126,9 @@ namespace TheHands3D
 				texturing.blindTexture(pyramid, texture, gl);
 			}
 			else
+				pyramid.Draw(gl);
+
+			prismatic.Draw(gl);
 
 			//Tô đậm cạnh của khối đang được chọn
 			if (choosingShape == Shape.ShapeType.CUBE)

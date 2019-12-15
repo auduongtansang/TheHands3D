@@ -15,7 +15,7 @@ namespace TheHands3D
 		public enum ShapeType { NONE, CUBE, PYRAMID, PRISMATIC };
 
 		//Loại hình vẽ
-		ShapeType type;
+		public ShapeType type;
 		//Màu hình vẽ
 		public Color color;
 
