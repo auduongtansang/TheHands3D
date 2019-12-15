@@ -192,13 +192,42 @@ namespace TheHands3D
             if (cbTransformation.SelectedIndex == 0) // Move
             {
                 affine.Translate(Convert.ToDouble(tbX.Text), Convert.ToDouble(tbY.Text), Convert.ToDouble(tbZ.Text));
-
             }
             else if (cbTransformation.SelectedIndex == 1) //Rotate
             {
-                affine.RotateX(Convert.ToDouble(tbX.Text));
-                affine.RotateY(Convert.ToDouble(tbY.Text));
-                affine.RotateZ(Convert.ToDouble(tbZ.Text));
+                double angleX = Convert.ToDouble(tbX.Text),
+                    angleY = Convert.ToDouble(tbY.Text),
+                    angleZ = Convert.ToDouble(tbZ.Text);
+
+                // Tìm ma trận chuyển hình về gốc tọa độ
+                if (choosingShape == Shape.ShapeType.CUBE)
+                {
+                    affine.RotateX(-cube.lastAngle.Item1);
+                    affine.RotateY(-cube.lastAngle.Item2);
+                    affine.RotateZ(-cube.lastAngle.Item3);
+
+                    cube.lastAngle = new Tuple<double, double, double> (angleX, angleY, angleZ);
+                }
+                else if (choosingShape == Shape.ShapeType.PYRAMID)
+                {
+                    affine.RotateX(-pyramid.lastAngle.Item1);
+                    affine.RotateY(-pyramid.lastAngle.Item2);
+                    affine.RotateZ(-pyramid.lastAngle.Item3);
+
+                    pyramid.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
+                }
+                else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                {
+                    affine.RotateX(-prismatic.lastAngle.Item1);
+                    affine.RotateY(-prismatic.lastAngle.Item2);
+                    affine.RotateZ(-prismatic.lastAngle.Item3);
+
+                    prismatic.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
+                }
+
+                affine.RotateX(angleX);
+                affine.RotateY(angleY);
+                affine.RotateZ(angleZ);
 
                 // Tìm ma trận chuyển hình về vị trí cũ
                 if (choosingShape == Shape.ShapeType.CUBE)
@@ -226,18 +255,6 @@ namespace TheHands3D
 
             if (choosingShape == Shape.ShapeType.CUBE)
             {
-                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
-                {
-                    cube.vertex.Clear();
-                    cube.vertex.Add(new Tuple<double, double, double>(0, 0, 0));
-                    cube.vertex.Add(new Tuple<double, double, double>(0, 2, 0));
-                    cube.vertex.Add(new Tuple<double, double, double>(2, 2, 0));
-                    cube.vertex.Add(new Tuple<double, double, double>(2, 0, 0));
-                    cube.vertex.Add(new Tuple<double, double, double>(0, 0, h));
-                    cube.vertex.Add(new Tuple<double, double, double>(0, 2, h));
-                    cube.vertex.Add(new Tuple<double, double, double>(2, 2, h));
-                    cube.vertex.Add(new Tuple<double, double, double>(2, 0, h));
-                }
                 for (int i = 0; i < cube.vertex.Count; i++)
                 {
                     cube.vertex[i] = affine.Transform(cube.vertex[i]);
@@ -245,16 +262,6 @@ namespace TheHands3D
             }
             else if (choosingShape == Shape.ShapeType.PYRAMID)
             {
-                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
-                {
-                    pyramid.vertex.Clear();
-                    pyramid.vertex.Add(new Tuple<double, double, double>(1, 3, h));
-                    pyramid.vertex.Add(new Tuple<double, double, double>(0, 2, 0));
-                    pyramid.vertex.Add(new Tuple<double, double, double>(0, 4, 0));
-                    pyramid.vertex.Add(new Tuple<double, double, double>(2, 4, 0));
-                    pyramid.vertex.Add(new Tuple<double, double, double>(2, 2, 0));
-                }
-
                 for (int i = 0; i < pyramid.vertex.Count; i++)
                 {
                     pyramid.vertex[i] = affine.Transform(pyramid.vertex[i]);
@@ -262,17 +269,6 @@ namespace TheHands3D
             }
             else if (choosingShape == Shape.ShapeType.PRISMATIC)
             {
-                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
-                {
-                    prismatic.vertex.Clear();
-                    prismatic.vertex.Add(new Tuple<double, double, double>(2, 0, 0));
-                    prismatic.vertex.Add(new Tuple<double, double, double>(3, 2 * Math.Sqrt(3) / 2, 0));
-                    prismatic.vertex.Add(new Tuple<double, double, double>(4, 0, 0));
-                    prismatic.vertex.Add(new Tuple<double, double, double>(2, 0, h));
-                    prismatic.vertex.Add(new Tuple<double, double, double>(3, 2 * Math.Sqrt(3) / 2, h));
-                    prismatic.vertex.Add(new Tuple<double, double, double>(4, 0, h));
-                }
-
                 for (int i = 0; i < prismatic.vertex.Count; i++)
                 {
                     prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);

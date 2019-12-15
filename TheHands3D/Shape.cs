@@ -31,6 +31,9 @@ namespace TheHands3D
 		//Tập thứ tự các đỉnh vẽ
 		public List<int> index;
 
+        // 
+        public Tuple<double, double, double> lastAngle = new Tuple<double, double, double> (0,0, 0);
+
 		public Shape(ShapeType userType, Color userColor)
 		{
 			//Khởi tạo
