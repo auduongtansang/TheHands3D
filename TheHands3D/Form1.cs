@@ -7,170 +7,278 @@ using SharpGL.SceneGraph.Assets;
 
 namespace TheHands3D
 {
-	public partial class mainForm : Form
-	{
-		Camera camera = new Camera();
-		Shape cube = new Shape(Shape.ShapeType.CUBE, Color.White);
-		Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
-		Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
+    public partial class mainForm : Form
+    {
+        Camera camera = new Camera();
+        Shape cube = new Shape(Shape.ShapeType.CUBE, Color.White);
+        Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
+        Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
 
-		Color userColor = Color.White;
-		Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
+        AffineTransform3D affine = new AffineTransform3D();
 
-		public mainForm()
-		{
-			InitializeComponent();
-		}
 
-		private void drawBoard_OpenGLInitialized(object sender, EventArgs e)
-		{
-			//Sự kiện "khởi tạo", xảy ra khi chương trình vừa được khởi chạy
 
-			//Lấy đối tượng OpenGL
-			OpenGL gl = drawBoard.OpenGL;
+        Color userColor = Color.White;
+        Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
 
-			//Set màu nền (đen)
-			gl.ClearColor(0, 0, 0, 1);
+        public mainForm()
+        {
+            InitializeComponent();
+        }
 
-			//Xóa toàn bộ drawBoard
-			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
-		}
+        private void drawBoard_OpenGLInitialized(object sender, EventArgs e)
+        {
+            //Sự kiện "khởi tạo", xảy ra khi chương trình vừa được khởi chạy
 
-		private void drawBoard_Resized(object sender, EventArgs e)
-		{
-			//Sự kiện "thay đổi kích thước cửa sổ"
+            //Lấy đối tượng OpenGL
+            OpenGL gl = drawBoard.OpenGL;
 
-			//Lấy đối tượng OpenGL
-			OpenGL gl = drawBoard.OpenGL;
+            //Set màu nền (đen)
+            gl.ClearColor(0, 0, 0, 1);
 
-			//Set viewport theo kích thước cửa sổ
-			gl.Viewport(0, 0, drawBoard.Width, drawBoard.Height);
+            //Xóa toàn bộ drawBoard
+            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+        }
 
-			//Set ma trận chiếu
-			gl.MatrixMode(OpenGL.GL_PROJECTION);
-			gl.LoadIdentity();
-			gl.Perspective(60.0, (double)(drawBoard.Width) / drawBoard.Height, 1.0, 100.0);
+        private void drawBoard_Resized(object sender, EventArgs e)
+        {
+            //Sự kiện "thay đổi kích thước cửa sổ"
 
-			//Set ma trận model view
-			gl.MatrixMode(OpenGL.GL_MODELVIEW);
-			gl.LoadIdentity();
-			gl.LookAt
-			(
-				camera.camX, camera.camY, camera.camZ,
-				camera.cenX, camera.cenY, camera.cenZ,
-				camera.upX, camera.upY, camera.upZ
-			);
-		}
+            //Lấy đối tượng OpenGL
+            OpenGL gl = drawBoard.OpenGL;
 
-		private void drawBoard_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
-		{
-			//Sự kiện "vẽ", xảy ra liên tục và lặp vô hạn lần
+            //Set viewport theo kích thước cửa sổ
+            gl.Viewport(0, 0, drawBoard.Width, drawBoard.Height);
 
-			//Lấy đối tượng OpenGL
-			OpenGL gl = drawBoard.OpenGL;
+            //Set ma trận chiếu
+            gl.MatrixMode(OpenGL.GL_PROJECTION);
+            gl.LoadIdentity();
+            gl.Perspective(60.0, (double)(drawBoard.Width) / drawBoard.Height, 1.0, 100.0);
 
-			//Xóa toàn bộ drawBoard
-			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
+            //Set ma trận model view
+            gl.MatrixMode(OpenGL.GL_MODELVIEW);
+            gl.LoadIdentity();
+            gl.LookAt
+            (
+                camera.camX, camera.camY, camera.camZ,
+                camera.cenX, camera.cenY, camera.cenZ,
+                camera.upX, camera.upY, camera.upZ
+            );
+        }
 
-			//Vẽ 3 trục tọa độ
-			gl.LineWidth(3.0f);
-			gl.Begin(OpenGL.GL_LINES);
-				//Trục Ox
-				gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(10.0f, 0.0f, 0.0f);
-				//Trục Oy
-				gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(0.0f, 10.0f, 0.0f);
-				//Trục Oz
-				gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(0.0f, 0.0f, 10.0f);
-			gl.End();
-			gl.LineWidth(1.0f);
+        private void drawBoard_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
+        {
+            //Sự kiện "vẽ", xảy ra liên tục và lặp vô hạn lần
 
-			//Vẽ các khối
-			cube.Draw(gl);
-			pyramid.Draw(gl);
-			prismatic.Draw(gl);
+            //Lấy đối tượng OpenGL
+            OpenGL gl = drawBoard.OpenGL;
 
-			//Tô đậm cạnh của khối đang được chọn
-			if (choosingShape == Shape.ShapeType.CUBE)
-				cube.DrawEdge(gl);
-			else if (choosingShape == Shape.ShapeType.PYRAMID)
-				pyramid.DrawEdge(gl);
-			else if (choosingShape == Shape.ShapeType.PRISMATIC)
-				prismatic.DrawEdge(gl);
+            //Xóa toàn bộ drawBoard
+            gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-			gl.Flush();
-		}
+            //Vẽ 3 trục tọa độ
+            gl.LineWidth(3.0f);
+            gl.Begin(OpenGL.GL_LINES);
+            //Trục Ox
+            gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(10.0f, 0.0f, 0.0f);
+            //Trục Oy
+            gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 10.0f, 0.0f);
+            //Trục Oz
+            gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 10.0f);
+            gl.End();
+            gl.LineWidth(1.0f);
 
-		private void drawBoard_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Z)
-			{
-				//Phím Z, di chuyển camera lại gần điểm nhìn
-				camera.ZoomIn();
-				drawBoard_Resized(sender, e);
-			}
-			else if (e.KeyCode == Keys.X)
-			{
-				//Phím X, di chuyển camera ra xa điểm nhìn
-				camera.ZoomOut();
-				drawBoard_Resized(sender, e);
-			}
-			else if (e.KeyCode == Keys.A)
-			{
-				//Phím A, xoay camera sang trái (quanh điểm nhìn)
-				camera.RotateLeft();
-				drawBoard_Resized(sender, e);
-			}
-			else if (e.KeyCode == Keys.D)
-			{
-				//Phím D, xoay camera sang phải (quanh điểm nhìn)
-				camera.RotateRight();
-				drawBoard_Resized(sender, e);
-			}
-			else if (e.KeyCode == Keys.W)
-			{
-				//Phím W, xoay camera lên trên (quanh điểm nhìn)
-				camera.RotateUp();
-				drawBoard_Resized(sender, e);
-			}
-			else if (e.KeyCode == Keys.S)
-			{
-				//Phím S, xoay camera xuống dưới (quanh điểm nhìn)
-				camera.RotateDown();
-				drawBoard_Resized(sender, e);
-			}
-		}
+            //Vẽ các khối
+            cube.Draw(gl);
+            pyramid.Draw(gl);
+            prismatic.Draw(gl);
 
-		private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
-		{
-			//Sự kiện "chọn hình khối"
-			if (cbShape.SelectedIndex == 0)
-				choosingShape = Shape.ShapeType.CUBE;
-			else if (cbShape.SelectedIndex == 1)
-				choosingShape = Shape.ShapeType.PYRAMID;
-			else if (cbShape.SelectedIndex == 2)
-				choosingShape = Shape.ShapeType.PRISMATIC;
-		}
+            //Tô đậm cạnh của khối đang được chọn
+            if (choosingShape == Shape.ShapeType.CUBE)
+                cube.DrawEdge(gl);
+            else if (choosingShape == Shape.ShapeType.PYRAMID)
+                pyramid.DrawEdge(gl);
+            else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                prismatic.DrawEdge(gl);
 
-		private void btnColor_Click(object sender, EventArgs e)
-		{
-			//Sự kiện "đổi màu của khối đang được chọn"
-			if (colorDialog.ShowDialog() == DialogResult.OK)
-			{
-				userColor = colorDialog.Color;
-				if (choosingShape == Shape.ShapeType.CUBE)
-					cube.color = userColor;
-				else if (choosingShape == Shape.ShapeType.PYRAMID)
-					pyramid.color = userColor;
-				else if (choosingShape == Shape.ShapeType.PRISMATIC)
-					prismatic.color = userColor;
-			}
-		}
+            gl.Flush();
+        }
 
-	}
+        private void drawBoard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Z)
+            {
+                //Phím Z, di chuyển camera lại gần điểm nhìn
+                camera.ZoomIn();
+                drawBoard_Resized(sender, e);
+            }
+            else if (e.KeyCode == Keys.X)
+            {
+                //Phím X, di chuyển camera ra xa điểm nhìn
+                camera.ZoomOut();
+                drawBoard_Resized(sender, e);
+            }
+            else if (e.KeyCode == Keys.A)
+            {
+                //Phím A, xoay camera sang trái (quanh điểm nhìn)
+                camera.RotateLeft();
+                drawBoard_Resized(sender, e);
+            }
+            else if (e.KeyCode == Keys.D)
+            {
+                //Phím D, xoay camera sang phải (quanh điểm nhìn)
+                camera.RotateRight();
+                drawBoard_Resized(sender, e);
+            }
+            else if (e.KeyCode == Keys.W)
+            {
+                //Phím W, xoay camera lên trên (quanh điểm nhìn)
+                camera.RotateUp();
+                drawBoard_Resized(sender, e);
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                //Phím S, xoay camera xuống dưới (quanh điểm nhìn)
+                camera.RotateDown();
+                drawBoard_Resized(sender, e);
+            }
+        }
+
+        private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            //Sự kiện "chọn hình khối"
+            if (cbShape.SelectedIndex == 0)
+                choosingShape = Shape.ShapeType.CUBE;
+            else if (cbShape.SelectedIndex == 1)
+                choosingShape = Shape.ShapeType.PYRAMID;
+            else if (cbShape.SelectedIndex == 2)
+                choosingShape = Shape.ShapeType.PRISMATIC;
+        }
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            //Sự kiện "đổi màu của khối đang được chọn"
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                userColor = colorDialog.Color;
+                if (choosingShape == Shape.ShapeType.CUBE)
+                    cube.color = userColor;
+                else if (choosingShape == Shape.ShapeType.PYRAMID)
+                    pyramid.color = userColor;
+                else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                    prismatic.color = userColor;
+            }
+        }
+
+        private void btnTransformation_Click(object sender, EventArgs e)
+        {
+            // Thực hiện phép biến đổi affine lên hình được chọn
+            affine.LoadIdentity();
+
+            // Tìm ma trận chuyển hình về gốc tọa độ
+            if (choosingShape == Shape.ShapeType.CUBE)
+                affine.Translate(-cube.vertex[0].Item1, -cube.vertex[0].Item2, -cube.vertex[0].Item3);
+            else if (choosingShape == Shape.ShapeType.PYRAMID)
+                affine.Translate(-pyramid.vertex[1].Item1, -pyramid.vertex[1].Item2, -pyramid.vertex[1].Item3);
+            else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                affine.Translate(-prismatic.vertex[0].Item1, -prismatic.vertex[0].Item2, -prismatic.vertex[0].Item3);
+
+            if (cbTransformation.SelectedIndex == 0) // Move
+            {
+                affine.Translate(Convert.ToDouble(tbX.Text), Convert.ToDouble(tbY.Text), Convert.ToDouble(tbZ.Text));
+
+            }
+            else if (cbTransformation.SelectedIndex == 1) //Rotate
+            {
+                affine.RotateX(Convert.ToDouble(tbX.Text));
+                affine.RotateY(Convert.ToDouble(tbY.Text));
+                affine.RotateZ(Convert.ToDouble(tbZ.Text));
+
+                // Tìm ma trận chuyển hình về vị trí cũ
+                if (choosingShape == Shape.ShapeType.CUBE)
+                    affine.Translate(cube.vertex[0].Item1, cube.vertex[0].Item2, cube.vertex[0].Item3);
+                else if (choosingShape == Shape.ShapeType.PYRAMID)
+                    affine.Translate(pyramid.vertex[1].Item1, pyramid.vertex[1].Item2, pyramid.vertex[1].Item3);
+                else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                    affine.Translate(prismatic.vertex[0].Item1, prismatic.vertex[0].Item2, prismatic.vertex[0].Item3);
+            }
+            else if (cbTransformation.SelectedIndex == 2) // Zoom
+            {
+                affine.Scale(Convert.ToDouble(tbX.Text), Convert.ToDouble(tbY.Text), Convert.ToDouble(tbZ.Text));
+
+                // Tìm ma trận chuyển hình về vị trí cũ
+                if (choosingShape == Shape.ShapeType.CUBE)
+                    affine.Translate(cube.vertex[0].Item1, cube.vertex[0].Item2, cube.vertex[0].Item3);
+                else if (choosingShape == Shape.ShapeType.PYRAMID)
+                    affine.Translate(pyramid.vertex[1].Item1, pyramid.vertex[1].Item2, pyramid.vertex[1].Item3);
+                else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                    affine.Translate(prismatic.vertex[0].Item1, prismatic.vertex[0].Item2, prismatic.vertex[0].Item3);
+            }
+
+            double a, h;
+            a = h = 2;
+
+            if (choosingShape == Shape.ShapeType.CUBE)
+            {
+                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
+                {
+                    cube.vertex.Clear();
+                    cube.vertex.Add(new Tuple<double, double, double>(0, 0, 0));
+                    cube.vertex.Add(new Tuple<double, double, double>(0, 2, 0));
+                    cube.vertex.Add(new Tuple<double, double, double>(2, 2, 0));
+                    cube.vertex.Add(new Tuple<double, double, double>(2, 0, 0));
+                    cube.vertex.Add(new Tuple<double, double, double>(0, 0, h));
+                    cube.vertex.Add(new Tuple<double, double, double>(0, 2, h));
+                    cube.vertex.Add(new Tuple<double, double, double>(2, 2, h));
+                    cube.vertex.Add(new Tuple<double, double, double>(2, 0, h));
+                }
+                for (int i = 0; i < cube.vertex.Count; i++)
+                {
+                    cube.vertex[i] = affine.Transform(cube.vertex[i]);
+                }
+            }
+            else if (choosingShape == Shape.ShapeType.PYRAMID)
+            {
+                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
+                {
+                    pyramid.vertex.Clear();
+                    pyramid.vertex.Add(new Tuple<double, double, double>(1, 3, h));
+                    pyramid.vertex.Add(new Tuple<double, double, double>(0, 2, 0));
+                    pyramid.vertex.Add(new Tuple<double, double, double>(0, 4, 0));
+                    pyramid.vertex.Add(new Tuple<double, double, double>(2, 4, 0));
+                    pyramid.vertex.Add(new Tuple<double, double, double>(2, 2, 0));
+                }
+
+                for (int i = 0; i < pyramid.vertex.Count; i++)
+                {
+                    pyramid.vertex[i] = affine.Transform(pyramid.vertex[i]);
+                }
+            }
+            else if (choosingShape == Shape.ShapeType.PRISMATIC)
+            {
+                if (cbTransformation.SelectedIndex == 2 || cbTransformation.SelectedIndex == 1)
+                {
+                    prismatic.vertex.Clear();
+                    prismatic.vertex.Add(new Tuple<double, double, double>(2, 0, 0));
+                    prismatic.vertex.Add(new Tuple<double, double, double>(3, 2 * Math.Sqrt(3) / 2, 0));
+                    prismatic.vertex.Add(new Tuple<double, double, double>(4, 0, 0));
+                    prismatic.vertex.Add(new Tuple<double, double, double>(2, 0, h));
+                    prismatic.vertex.Add(new Tuple<double, double, double>(3, 2 * Math.Sqrt(3) / 2, h));
+                    prismatic.vertex.Add(new Tuple<double, double, double>(4, 0, h));
+                }
+
+                for (int i = 0; i < prismatic.vertex.Count; i++)
+                {
+                    prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);
+                }
+            }
+
+        }
+    }
 }
