@@ -13,9 +13,12 @@ namespace TheHands3D
         Shape cube = new Shape(Shape.ShapeType.CUBE, Color.White);
         Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
         Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
-        
 
-        AffineTransform3D affine = new AffineTransform3D();
+		Texture texture = new Texture();
+		bool EnableTextureCube = false;
+		bool EnableTexturePyramid = false;
+
+		AffineTransform3D affine = new AffineTransform3D();
         List<Shape> backup = new List<Shape>() ;
 
 
@@ -108,10 +111,21 @@ namespace TheHands3D
 			gl.End();
 			gl.LineWidth(1.0f);
 
-            //Vẽ các khối
-            cube.Draw(gl);
-            pyramid.Draw(gl);
-            prismatic.Draw(gl);
+			//Vẽ các khối
+			if (EnableTextureCube == true)
+			{
+				Texturing texturing = new Texturing();
+				texturing.blindTexture(cube, texture, gl);
+			}
+			else
+				cube.Draw(gl);
+
+			if (EnableTexturePyramid == true)
+			{
+				Texturing texturing = new Texturing();
+				texturing.blindTexture(pyramid, texture, gl);
+			}
+			else
 
 			//Tô đậm cạnh của khối đang được chọn
 			if (choosingShape == Shape.ShapeType.CUBE)
@@ -191,18 +205,23 @@ namespace TheHands3D
 
         private void btnColor_Click(object sender, EventArgs e)
         {
-            //Sự kiện "đổi màu của khối đang được chọn"
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                userColor = colorDialog.Color;
-                if (choosingShape == Shape.ShapeType.CUBE)
-                    cube.color = userColor;
-                else if (choosingShape == Shape.ShapeType.PYRAMID)
-                    pyramid.color = userColor;
-                else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                    prismatic.color = userColor;
-            }
-        }
+			if (colorDialog.ShowDialog() == DialogResult.OK)
+			{
+				userColor = colorDialog.Color;
+				if (choosingShape == Shape.ShapeType.CUBE)
+				{
+					cube.color = userColor;
+					EnableTextureCube = false;
+				}
+				else if (choosingShape == Shape.ShapeType.PYRAMID)
+				{
+					pyramid.color = userColor;
+					EnableTexturePyramid = false;
+				}
+				else if (choosingShape == Shape.ShapeType.PRISMATIC)
+					prismatic.color = userColor;
+			}
+		}
 
         private void btnTransformation_Click(object sender, EventArgs e)
         {
@@ -313,5 +332,36 @@ namespace TheHands3D
             }
 
         }
-    }
+
+		private void btnChooseImage_Click(object sender, EventArgs e)
+		{
+			//  sự kiện dán ảnh lên khối được chọn
+			openFileDialog1.ShowDialog();
+
+			// Lấy đối tượng OpenGL
+			OpenGL gl = drawBoard.OpenGL;
+
+			// chấp nhận texture
+			gl.Enable(OpenGL.GL_TEXTURE_2D);
+
+			if (choosingShape == Shape.ShapeType.CUBE)
+			{
+				EnableTextureCube = true;
+				EnableTexturePyramid = false;
+			}
+			else if (choosingShape == Shape.ShapeType.PYRAMID)
+			{
+				EnableTexturePyramid = true;
+				EnableTextureCube = false;
+			}
+			//Destroy the existing texture.
+			texture.Destroy(drawBoard.OpenGL);
+
+			//Create a new texture.
+			texture.Create(gl, openFileDialog1.FileName);
+
+			//Redraw.
+			drawBoard.Invalidate();
+		}
+	}
 }
