@@ -18,41 +18,28 @@ using SharpGL.SceneGraph.Primitives;
 
 namespace TheHands3D
 {
-    public partial class mainForm : Form
+	public partial class mainForm : Form
 	{
 		Camera camera = new Camera();
 		Shape cube = new Shape(Shape.ShapeType.CUBE, Color.White);
 		Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
 		Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
 
-        //  The texture identifier.
-        Texture texture = new Texture();
-
-        Color userColor = Color.White;
+		Color userColor = Color.White;
 		Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
 
-        bool EnableTextureCube = false;
-        bool EnableTexturePyramid = false;
+		bool EnableTextureCube = false;
+		bool EnableTexturePyramid = false;
 
-        
-        public mainForm()
+		//Init texture
+		Texture texture = new Texture();
+
+		public mainForm()
 		{
 			InitializeComponent();
+		}
 
-            Light light = new Light()
-            {
-                On = true,
-                Position = new Vertex(3, 10, 3),
-                GLCode = OpenGL.GL_LIGHT0
-            };
-
-            sceneControl1.Scene.SceneContainer.AddChild(new Grid());
-            sceneControl1.Scene.SceneContainer.AddChild(new Axies());
-            sceneControl1.Scene.SceneContainer.AddChild(light);
-
-        }
-        
-        private void drawBoard_OpenGLInitialized(object sender, EventArgs e)
+		private void drawBoard_OpenGLInitialized(object sender, EventArgs e)
 		{
 			//Sự kiện "khởi tạo", xảy ra khi chương trình vừa được khởi chạy
 
@@ -94,129 +81,49 @@ namespace TheHands3D
 
 		private void drawBoard_OpenGLDraw(object sender, SharpGL.RenderEventArgs args)
 		{
-            //Sự kiện "vẽ", xảy ra liên tục và lặp vô hạn lần
+			//Sự kiện "vẽ", xảy ra liên tục và lặp vô hạn lần
 
-            //Lấy đối tượng OpenGL
-            OpenGL gl = drawBoard.OpenGL;
+			//Lấy đối tượng OpenGL
+			OpenGL gl = drawBoard.OpenGL;
 
 			//Xóa toàn bộ drawBoard
 			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            
-
-
-            //Vẽ 3 trục tọa độ
-            gl.LineWidth(3.0f);
+			//Vẽ 3 trục tọa độ
+			gl.LineWidth(3.0f);
 			gl.Begin(OpenGL.GL_LINES);
-				//Trục Ox
-				gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(10.0f, 0.0f, 0.0f);
-				//Trục Oy
-				gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(0.0f, 10.0f, 0.0f);
-				//Trục Oz
-				gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
-				gl.Vertex(0.0f, 0.0f, 0.0f);
-				gl.Vertex(0.0f, 0.0f, 10.0f);
+			//Trục Ox
+			gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
+			gl.Vertex(0.0f, 0.0f, 0.0f);
+			gl.Vertex(10.0f, 0.0f, 0.0f);
+			//Trục Oy
+			gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
+			gl.Vertex(0.0f, 0.0f, 0.0f);
+			gl.Vertex(0.0f, 10.0f, 0.0f);
+			//Trục Oz
+			gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
+			gl.Vertex(0.0f, 0.0f, 0.0f);
+			gl.Vertex(0.0f, 0.0f, 10.0f);
 			gl.End();
 			gl.LineWidth(1.0f);
 
 			//Vẽ các khối
-            if(EnableTextureCube == true)
-            {
-                //  Bind the texture.
-                texture.Bind(gl);
+			if (EnableTextureCube == true)
+			{
+				//  Bind the texture.
+				Texturing texturing = new Texturing();
+				texturing.blindTexture(cube, texture, gl);
+			}
+			else
+				cube.Draw(gl);
 
-                gl.Begin(OpenGL.GL_QUADS);
-
-                // Top Face
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 0.0f, 2.0f); // Bottom Left Of The Texture and Quad
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 0.0f, 2.0f);  // Bottom Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 2.0f);   // Top Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 2.0f);  // Top Left Of The Texture and Quad
-
-                // Bottom Face
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(0.0f, 0.0f, 0.0f);    // Bottom Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 0.0f); // Top Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 0.0f);  // Top Left Of The Texture and Quad
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(2.0f, 0.0f, 0.0f); // Bottom Left Of The Texture and Quad
-
-                // Front Face
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 0.0f); // Top Left Of The Texture and Quad
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 2.0f, 2.0f);  // Bottom Left Of The Texture and Quad
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 2.0f, 2.0f);   // Bottom Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 0.0f);  // Top Right Of The Texture and Quad
-      
-                // Back Face
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(0.0f, 0.0f, 0.0f);    // Top Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(2.0f, 0.0f, 0.0f); // Top Left Of The Texture and Quad
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(2.0f, 0.0f, 2.0f);  // Bottom Left Of The Texture and Quad
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(0.0f, 0.0f, 2.0f); // Bottom Right Of The Texture and Quad
-
-                // Right face
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 0.0f, 0.0f); // Bottom Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 0.0f);  // Top Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 2.0f);   // Top Left Of The Texture and Quad
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(2.0f, 0.0f, 2.0f);  // Bottom Left Of The Texture and Quad
-
-                // Left Face
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 0.0f, 0.0f);    // Bottom Left Of The Texture and Quad
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(0.0f, 0.0f, 2.0f); // Bottom Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 2.0f);  // Top Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 0.0f); // Top Left Of The Texture and Quad
-
-
-                gl.End();
-
-            }
-            else
-                cube.Draw(gl);
-
-            if(EnableTexturePyramid == true)
-            {
-                texture.Bind(gl);
-
-                gl.Begin(OpenGL.GL_QUADS);
-
-                // Front Face
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 2.0f, 0.0f);
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(2.0f, 4.0f, 0.0f);
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(1.0f, 3.0f, 2.0f);
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 0.0f);
-                //Right face
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(0.0f, 4.0f, 0.0f);
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 4.0f, 0.0f);
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(1.0f, 3.0f, 2.0f);
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 4.0f, 0.0f);
-
-                //Back Face
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 2.0f, 0.0f);
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(0.0f, 4.0f, 0.0f);
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(1.0f, 3.0f, 2.0f);
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 2.0f, 0.0f);
-
-                // Left face
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 2.0f, 0.0f);
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(2.0f, 2.0f, 0.0f);
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(1.0f, 3.0f, 2.0f);
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(0.0f, 2.0f, 0.0f);
-
-
-                // Bottom face
-                gl.TexCoord(0.0f, 1.0f); gl.Vertex(0.0f, 4.0f, 0.0f);    // Bottom Right Of The Texture and Quad
-                gl.TexCoord(0.0f, 0.0f); gl.Vertex(0.0f, 2.0f, 0.0f); // Top Right Of The Texture and Quad
-                gl.TexCoord(1.0f, 0.0f); gl.Vertex(2.0f, 2.0f, 0.0f);  // Top Left Of The Texture and Quad
-                gl.TexCoord(1.0f, 1.0f); gl.Vertex(2.0f, 4.0f, 0.0f); // Bottom Left Of The Texture and Quad
-                
-
-
-                gl.End();
-
-            }
-            else
-    			pyramid.Draw(gl);
+			if (EnableTexturePyramid == true)
+			{
+				Texturing texturing = new Texturing();
+				texturing.blindTexture(pyramid, texture, gl);
+			}
+			else
+				pyramid.Draw(gl);
 
 			prismatic.Draw(gl);
 
@@ -228,8 +135,8 @@ namespace TheHands3D
 			else if (choosingShape == Shape.ShapeType.PRISMATIC)
 				prismatic.DrawEdge(gl);
 
-           
-            gl.Flush();
+
+			gl.Flush();
 		}
 
 		private void drawBoard_KeyDown(object sender, KeyEventArgs e)
@@ -298,40 +205,41 @@ namespace TheHands3D
 			}
 		}
 
-        
-        private void btnChooseImage_Click(object sender, EventArgs e)
-        {
-            //  sự kiện dán ảnh lên khối được chọn
-            openFileDialog1.ShowDialog();
 
-            // Lấy đối tượng OpenGL
-            OpenGL gl = drawBoard.OpenGL;
+		private void btnChooseImage_Click(object sender, EventArgs e)
+		{
+			//  sự kiện dán ảnh lên khối được chọn
+			openFileDialog1.ShowDialog();
 
-            // chấp nhận texture
-            gl.Enable(OpenGL.GL_TEXTURE_2D);
+			// Lấy đối tượng OpenGL
+			OpenGL gl = drawBoard.OpenGL;
+
+			// chấp nhận texture
+			gl.Enable(OpenGL.GL_TEXTURE_2D);
 
 
-            if (choosingShape == Shape.ShapeType.CUBE)
-            {
-                EnableTextureCube = true;
-                EnableTexturePyramid = false;
-            }
-            else if (choosingShape == Shape.ShapeType.PYRAMID)
-            {
-                EnableTexturePyramid = true;
-                EnableTextureCube = false;
-            }
-            //  Destroy the existing texture.
-            texture.Destroy(drawBoard.OpenGL);
+			if (choosingShape == Shape.ShapeType.CUBE)
+			{
+				EnableTextureCube = true;
+				EnableTexturePyramid = false;
+			}
+			else if (choosingShape == Shape.ShapeType.PYRAMID)
+			{
+				EnableTexturePyramid = true;
+				EnableTextureCube = false;
+			}
+			//  Destroy the existing texture.
+			texture.Destroy(drawBoard.OpenGL);
 
-            //  Create a new texture.
-            texture.Create(gl, openFileDialog1.FileName);
-            
+			//  Create a new texture.
+			texture.Create(gl, openFileDialog1.FileName);
 
-            //  Redraw.
-            drawBoard.Invalidate();
 
-            
-       
-        }
-    }
+			//  Redraw.
+			drawBoard.Invalidate();
+
+
+
+		}
+	}
+}

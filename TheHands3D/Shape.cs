@@ -15,7 +15,7 @@ namespace TheHands3D
 		public enum ShapeType { NONE, CUBE, PYRAMID, PRISMATIC };
 
 		//Loại hình vẽ
-		ShapeType type;
+		public ShapeType type;
 		//Màu hình vẽ
 		public Color color;
 
@@ -53,7 +53,7 @@ namespace TheHands3D
 				vertex.Add(new Tuple<double, double, double>(2, 2, h));
 				vertex.Add(new Tuple<double, double, double>(2, 0, h));
 
-				//Thứ tự vẽ (đáy trên, đáy dưới, mặt trái, mặt phải, mặt trước, mặt sau)
+				//Thứ tự vẽ (đáy dưới, đáy trên, mặt trái, mặt phải, mặt trước, mặt sau)
 				index = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 1, 2, 6, 5, 0, 3, 7, 4 };
 			}
 			else if (type == ShapeType.PYRAMID)
@@ -68,7 +68,7 @@ namespace TheHands3D
 				vertex.Add(new Tuple<double, double, double>(2, 4, 0));
 				vertex.Add(new Tuple<double, double, double>(2, 2, 0));
 
-				//Thứ tự vẽ (đáy dưới, mặt trái, mặt trái, mặt phải, mặt sau, mặt trước)
+				//Thứ tự vẽ (đáy dưới, mặt trái, mặt phải, mặt sau, mặt trước)
 				index = new List<int>() { 1, 2, 3, 4, 0, 1, 2, 0, 3, 4, 0, 2, 3, 0, 4, 1 };
 			}
 			else if (type == ShapeType.PRISMATIC)
