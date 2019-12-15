@@ -176,21 +176,6 @@ namespace TheHands3D
             }
         }
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			transform.Scale(2, 2, 4);
-			if (choosingShape == Shape.ShapeType.CUBE)
-				for (int i = 0; i < cube.vertex.Count; i++)			
-					cube.vertex[i] = transform.Transform(cube.vertex[i]);
-			else if (choosingShape == Shape.ShapeType.PYRAMID)
-				for (int i = 0; i < pyramid.vertex.Count; i++)
-					pyramid.vertex[i] = transform.Transform(pyramid.vertex[i]);
-			else if (choosingShape == Shape.ShapeType.PRISMATIC)
-				for (int i = 0; i < prismatic.vertex.Count; i++)
-					prismatic.vertex[i] = transform.Transform(prismatic.vertex[i]);
-			transform.LoadIdentity();
-		}
-
 		private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
 		{
 			//Sự kiện "chọn hình khối"
