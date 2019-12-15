@@ -16,6 +16,12 @@ namespace TheHands3D
 			transformMatrix = new List<double> { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 		}
 
+		public void LoadIdentity()
+		{
+			//Reset ma trận hiện hành về ma trận đơn vị
+			transformMatrix = new List<double> { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+		}
+
 		public void Multiply(List<double> matrix)
 		{
 			//Hàm nhân một ma trận khác với ma trận hiện hành
@@ -26,12 +32,6 @@ namespace TheHands3D
 						retMatrix[i * 4 + j] += matrix[i * 4 + k] * transformMatrix[k * 4 + j];
 			transformMatrix = retMatrix;
 		}
-
-        public void LoadIdentity()
-        {
-            //Reset ma trận hiện hành về ma trận đơn vị
-            transformMatrix = new List<double> { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
-        }
 
         public void Translate(double dx, double dy, double dz)
 		{

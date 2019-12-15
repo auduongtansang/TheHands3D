@@ -13,8 +13,10 @@ namespace TheHands3D
         Shape cube = new Shape(Shape.ShapeType.CUBE, Color.White);
         Shape pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
         Shape prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
+        
 
         AffineTransform3D affine = new AffineTransform3D();
+        List<Shape> backup = new List<Shape>() ;
 
 
 
@@ -76,36 +78,60 @@ namespace TheHands3D
             //Xóa toàn bộ drawBoard
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
 
-            //Vẽ 3 trục tọa độ
-            gl.LineWidth(3.0f);
-            gl.Begin(OpenGL.GL_LINES);
-            //Trục Ox
-            gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
-            gl.Vertex(0.0f, 0.0f, 0.0f);
-            gl.Vertex(10.0f, 0.0f, 0.0f);
-            //Trục Oy
-            gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
-            gl.Vertex(0.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 10.0f, 0.0f);
-            //Trục Oz
-            gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
-            gl.Vertex(0.0f, 0.0f, 0.0f);
-            gl.Vertex(0.0f, 0.0f, 10.0f);
-            gl.End();
-            gl.LineWidth(1.0f);
+			//Vẽ 3 trục tọa độ
+			gl.LineWidth(3.0f);
+			gl.Begin(OpenGL.GL_LINES);
+				//Trục Ox
+				gl.Color(1.0f, 0.0f, 0.0f, 1.0f);
+				gl.Vertex(0.0f, 0.0f, 0.0f);
+				gl.Vertex(10.0f, 0.0f, 0.0f);
+				//Trục Oy
+				gl.Color(0.0f, 1.0f, 0.0f, 1.0f);
+				gl.Vertex(0.0f, 0.0f, 0.0f);
+				gl.Vertex(0.0f, 10.0f, 0.0f);
+				//Trục Oz
+				gl.Color(0.0f, 0.0f, 1.0f, 1.0f);
+				gl.Vertex(0.0f, 0.0f, 0.0f);
+				gl.Vertex(0.0f, 0.0f, 10.0f);
+
+				//Mặt phẳng đáy
+				for (int i = 0; i <= 14; i++)
+				{
+					if (i == 0 || i == 7 || i == 14) gl.Color(1.0f, 1.0f, 1.0f, 1.0f);
+					else gl.Color(0.5f, 0.5f, 0.5f, 1.0f);
+
+					gl.Vertex(-14.0f + 2 * i, -14.0f, 0.0f);
+					gl.Vertex(-14.0f + 2 * i, 14.0f, 0.0f);
+					gl.Vertex(-14.0f, -14.0f + 2 * i, 0.0f);
+					gl.Vertex(14.0f, -14.0f + 2 * i, 0.0f);
+				}
+			gl.End();
+			gl.LineWidth(1.0f);
 
             //Vẽ các khối
             cube.Draw(gl);
             pyramid.Draw(gl);
             prismatic.Draw(gl);
 
-            //Tô đậm cạnh của khối đang được chọn
-            if (choosingShape == Shape.ShapeType.CUBE)
-                cube.DrawEdge(gl);
-            else if (choosingShape == Shape.ShapeType.PYRAMID)
-                pyramid.DrawEdge(gl);
-            else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                prismatic.DrawEdge(gl);
+			//Tô đậm cạnh của khối đang được chọn
+			if (choosingShape == Shape.ShapeType.CUBE)
+			{
+				cube.DrawEdge(gl);
+				pyramid.DrawEdge2(gl);
+				prismatic.DrawEdge2(gl);
+			}
+			else if (choosingShape == Shape.ShapeType.PYRAMID)
+			{
+				pyramid.DrawEdge(gl);
+				cube.DrawEdge2(gl);
+				prismatic.DrawEdge2(gl);
+			}
+			else if (choosingShape == Shape.ShapeType.PRISMATIC)
+			{
+				prismatic.DrawEdge(gl);
+				cube.DrawEdge2(gl);
+				pyramid.DrawEdge2(gl);
+			}
 
             gl.Flush();
         }
@@ -150,16 +176,18 @@ namespace TheHands3D
             }
         }
 
-        private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            //Sự kiện "chọn hình khối"
-            if (cbShape.SelectedIndex == 0)
-                choosingShape = Shape.ShapeType.CUBE;
-            else if (cbShape.SelectedIndex == 1)
-                choosingShape = Shape.ShapeType.PYRAMID;
-            else if (cbShape.SelectedIndex == 2)
-                choosingShape = Shape.ShapeType.PRISMATIC;
-        }
+		private void cbShape_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			//Sự kiện "chọn hình khối"
+			if (cbShape.SelectedIndex == 0)
+				choosingShape = Shape.ShapeType.CUBE;
+			else if (cbShape.SelectedIndex == 1)
+				choosingShape = Shape.ShapeType.PYRAMID;
+			else if (cbShape.SelectedIndex == 2)
+				choosingShape = Shape.ShapeType.PRISMATIC;
+			else
+				choosingShape = Shape.ShapeType.NONE;
+		}
 
         private void btnColor_Click(object sender, EventArgs e)
         {
@@ -206,7 +234,7 @@ namespace TheHands3D
                     affine.RotateY(-cube.lastAngle.Item2);
                     affine.RotateZ(-cube.lastAngle.Item3);
 
-                    cube.lastAngle = new Tuple<double, double, double> (angleX, angleY, angleZ);
+                    cube.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
                 }
                 else if (choosingShape == Shape.ShapeType.PYRAMID)
                 {
@@ -243,11 +271,20 @@ namespace TheHands3D
 
                 // Tìm ma trận chuyển hình về vị trí cũ
                 if (choosingShape == Shape.ShapeType.CUBE)
+                {
                     affine.Translate(cube.vertex[0].Item1, cube.vertex[0].Item2, cube.vertex[0].Item3);
+                   
+                }
                 else if (choosingShape == Shape.ShapeType.PYRAMID)
+                {
                     affine.Translate(pyramid.vertex[1].Item1, pyramid.vertex[1].Item2, pyramid.vertex[1].Item3);
+                    
+                }
                 else if (choosingShape == Shape.ShapeType.PRISMATIC)
+                {
                     affine.Translate(prismatic.vertex[0].Item1, prismatic.vertex[0].Item2, prismatic.vertex[0].Item3);
+                    
+                }
             }
 
             double a, h;
