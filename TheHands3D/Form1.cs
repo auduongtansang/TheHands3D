@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SharpGL.SceneGraph.Assets;
+using System.Threading;
 
 namespace TheHands3D
 {
@@ -19,10 +20,10 @@ namespace TheHands3D
 		bool EnableTexturePyramid = false;
 
 		AffineTransform3D affine = new AffineTransform3D();
-        List<Shape> backup = new List<Shape>() ;
-
-
-
+		double affX, affY, affZ, _time; //Biến lưu thông số biến đổi, thời gian thực hiện
+		double frames, count = 0; //Biến lưu số frame và biến đếm cho biết khi nào biến đổi xong
+		bool isTransform = false;
+        
         Color userColor = Color.White;
         Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
 
@@ -111,7 +112,34 @@ namespace TheHands3D
 			gl.End();
 			gl.LineWidth(1.0f);
 
-			//Vẽ các khối
+			//Biến đổi affine
+			if(isTransform)
+			{ 
+				if (choosingShape == Shape.ShapeType.CUBE)
+				{
+					for (int i = 0; i < cube.vertex.Count; i++)
+						cube.vertex[i] = affine.Transform(cube.vertex[i]);
+				}
+				else if (choosingShape == Shape.ShapeType.PYRAMID)
+				{
+					for (int i = 0; i < pyramid.vertex.Count; i++)
+						pyramid.vertex[i] = affine.Transform(pyramid.vertex[i]);
+				}
+				else if (choosingShape == Shape.ShapeType.PRISMATIC)
+				{
+					for (int i = 0; i < prismatic.vertex.Count; i++)
+						prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);
+				}
+				count++; //Tính toán xem khi nào dừng biến đổi
+				if (count == frames) //Khi cộng các độ chia lại lớn hơn tham số đầu tiên
+				{
+					count = 0;
+					isTransform = false;
+				}
+			}
+
+
+			//Vẽ các khối có texture
 			if (EnableTextureCube == true)
 			{
 				Texturing texturing = new Texturing();
@@ -157,7 +185,8 @@ namespace TheHands3D
 			}
 
             gl.Flush();
-        }
+			Thread.Sleep((int)(_time * 1000 / 30));
+		}
 
         private void drawBoard_KeyDown(object sender, KeyEventArgs e)
         {
@@ -236,110 +265,32 @@ namespace TheHands3D
         {
             // Thực hiện phép biến đổi affine lên hình được chọn
             affine.LoadIdentity();
+			affX = Convert.ToDouble(tbX.Text);
+			affY = Convert.ToDouble(tbY.Text);
+			affZ = Convert.ToDouble(tbZ.Text);
+			_time = Convert.ToDouble(tbTime.Text);
+			isTransform = true;
+			//30 frame/1s tức là lấy thông số biến đổi chia cho tổng số frame để ra độ tăng theo thời gian
+			frames = 30 * _time; //Tổng số frames
+			double divAffX = affX / frames, 
+				divAffY = affY / frames, 
+				divAffZ = affZ / frames;
+			
 
-            // Tìm ma trận chuyển hình về gốc tọa độ
-            if (choosingShape == Shape.ShapeType.CUBE)
-                affine.Translate(-cube.vertex[0].Item1, -cube.vertex[0].Item2, -cube.vertex[0].Item3);
-            else if (choosingShape == Shape.ShapeType.PYRAMID)
-                affine.Translate(-pyramid.vertex[1].Item1, -pyramid.vertex[1].Item2, -pyramid.vertex[1].Item3);
-            else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                affine.Translate(-prismatic.vertex[0].Item1, -prismatic.vertex[0].Item2, -prismatic.vertex[0].Item3);
-
-            if (cbTransformation.SelectedIndex == 0) // Move
+			if (cbTransformation.SelectedIndex == 0) // Move
             {
-                affine.Translate(Convert.ToDouble(tbX.Text), Convert.ToDouble(tbY.Text), Convert.ToDouble(tbZ.Text));
+                affine.Translate(divAffX, divAffY, divAffZ);
             }
             else if (cbTransformation.SelectedIndex == 1) //Rotate
             {
-                double angleX = Convert.ToDouble(tbX.Text),
-                    angleY = Convert.ToDouble(tbY.Text),
-                    angleZ = Convert.ToDouble(tbZ.Text);
-
-                // Tìm ma trận chuyển hình về gốc tọa độ
-                if (choosingShape == Shape.ShapeType.CUBE)
-                {
-                    affine.RotateX(-cube.lastAngle.Item1);
-                    affine.RotateY(-cube.lastAngle.Item2);
-                    affine.RotateZ(-cube.lastAngle.Item3);
-
-                    cube.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
-                }
-                else if (choosingShape == Shape.ShapeType.PYRAMID)
-                {
-                    affine.RotateX(-pyramid.lastAngle.Item1);
-                    affine.RotateY(-pyramid.lastAngle.Item2);
-                    affine.RotateZ(-pyramid.lastAngle.Item3);
-
-                    pyramid.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
-                }
-                else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                {
-                    affine.RotateX(-prismatic.lastAngle.Item1);
-                    affine.RotateY(-prismatic.lastAngle.Item2);
-                    affine.RotateZ(-prismatic.lastAngle.Item3);
-
-                    prismatic.lastAngle = new Tuple<double, double, double>(angleX, angleY, angleZ);
-                }
-
-                affine.RotateX(angleX);
-                affine.RotateY(angleY);
-                affine.RotateZ(angleZ);
-
-                // Tìm ma trận chuyển hình về vị trí cũ
-                if (choosingShape == Shape.ShapeType.CUBE)
-                    affine.Translate(cube.vertex[0].Item1, cube.vertex[0].Item2, cube.vertex[0].Item3);
-                else if (choosingShape == Shape.ShapeType.PYRAMID)
-                    affine.Translate(pyramid.vertex[1].Item1, pyramid.vertex[1].Item2, pyramid.vertex[1].Item3);
-                else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                    affine.Translate(prismatic.vertex[0].Item1, prismatic.vertex[0].Item2, prismatic.vertex[0].Item3);
+                affine.RotateX(divAffX);
+                affine.RotateY(divAffY);
+                affine.RotateZ(divAffZ);
             }
             else if (cbTransformation.SelectedIndex == 2) // Zoom
             {
-                affine.Scale(Convert.ToDouble(tbX.Text), Convert.ToDouble(tbY.Text), Convert.ToDouble(tbZ.Text));
-
-                // Tìm ma trận chuyển hình về vị trí cũ
-                if (choosingShape == Shape.ShapeType.CUBE)
-                {
-                    affine.Translate(cube.vertex[0].Item1, cube.vertex[0].Item2, cube.vertex[0].Item3);
-                   
-                }
-                else if (choosingShape == Shape.ShapeType.PYRAMID)
-                {
-                    affine.Translate(pyramid.vertex[1].Item1, pyramid.vertex[1].Item2, pyramid.vertex[1].Item3);
-                    
-                }
-                else if (choosingShape == Shape.ShapeType.PRISMATIC)
-                {
-                    affine.Translate(prismatic.vertex[0].Item1, prismatic.vertex[0].Item2, prismatic.vertex[0].Item3);
-                    
-                }
+                affine.Scale(divAffX, divAffY, divAffZ);
             }
-
-            double a, h;
-            a = h = 2;
-
-            if (choosingShape == Shape.ShapeType.CUBE)
-            {
-                for (int i = 0; i < cube.vertex.Count; i++)
-                {
-                    cube.vertex[i] = affine.Transform(cube.vertex[i]);
-                }
-            }
-            else if (choosingShape == Shape.ShapeType.PYRAMID)
-            {
-                for (int i = 0; i < pyramid.vertex.Count; i++)
-                {
-                    pyramid.vertex[i] = affine.Transform(pyramid.vertex[i]);
-                }
-            }
-            else if (choosingShape == Shape.ShapeType.PRISMATIC)
-            {
-                for (int i = 0; i < prismatic.vertex.Count; i++)
-                {
-                    prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);
-                }
-            }
-
         }
 
 		private void btnChooseImage_Click(object sender, EventArgs e)
@@ -371,6 +322,13 @@ namespace TheHands3D
 
 			//Redraw.
 			drawBoard.Invalidate();
+		}
+
+		private void btnReset_Click(object sender, EventArgs e)
+		{
+			cube = new Shape(Shape.ShapeType.CUBE, Color.White);
+			pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
+			prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
 		}
 	}
 }
