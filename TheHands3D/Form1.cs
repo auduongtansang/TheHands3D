@@ -149,6 +149,12 @@ namespace TheHands3D
 				cube.DrawEdge2(gl);
 				pyramid.DrawEdge2(gl);
 			}
+			else
+			{
+				prismatic.DrawEdge2(gl);
+				cube.DrawEdge2(gl);
+				pyramid.DrawEdge2(gl);
+			}
 
             gl.Flush();
         }

@@ -73,7 +73,8 @@
 			this.cbShape.Items.AddRange(new object[] {
             "Cube",
             "Pyramid",
-            "Prismatic"});
+            "Prismatic",
+            "None"});
 			this.cbShape.Location = new System.Drawing.Point(137, 10);
 			this.cbShape.Margin = new System.Windows.Forms.Padding(4);
 			this.cbShape.Name = "cbShape";
