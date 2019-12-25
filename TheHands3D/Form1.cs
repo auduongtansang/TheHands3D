@@ -367,6 +367,8 @@ namespace TheHands3D
 			cube = new Shape(Shape.ShapeType.CUBE, Color.White);
 			pyramid = new Shape(Shape.ShapeType.PYRAMID, Color.Red);
 			prismatic = new Shape(Shape.ShapeType.PRISMATIC, Color.Aqua);
+			EnableTextureCube = false;
+			EnableTexturePyramid = false;
 		}
 	}
 }
