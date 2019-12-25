@@ -137,6 +137,7 @@ namespace TheHands3D
 				{
 					isTransform = false;
 					_time = 0;
+					skip = false;
 				}
 				count++; //Tính toán xem khi nào dừng biến đổi
 				if (count >= frames) //Khi cộng các độ chia lại lớn hơn tham số đầu tiên
