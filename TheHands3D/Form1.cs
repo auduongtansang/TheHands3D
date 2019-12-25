@@ -131,7 +131,7 @@ namespace TheHands3D
 						prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);
 				}
 				count++; //Tính toán xem khi nào dừng biến đổi
-				if (count == frames) //Khi cộng các độ chia lại lớn hơn tham số đầu tiên
+				if (count >= frames) //Khi cộng các độ chia lại lớn hơn tham số đầu tiên
 				{
 					count = 0;
 					isTransform = false;
@@ -263,19 +263,48 @@ namespace TheHands3D
 
         private void btnTransformation_Click(object sender, EventArgs e)
         {
-            // Thực hiện phép biến đổi affine lên hình được chọn
-            affine.LoadIdentity();
-			affX = Convert.ToDouble(tbX.Text);
-			affY = Convert.ToDouble(tbY.Text);
-			affZ = Convert.ToDouble(tbZ.Text);
-			_time = Convert.ToDouble(tbTime.Text);
-			isTransform = true;
+			// Thực hiện phép biến đổi affine lên hình được chọn
+			double divAffX, divAffY, divAffZ ;
+			affine.LoadIdentity();
+
 			//30 frame/1s tức là lấy thông số biến đổi chia cho tổng số frame để ra độ tăng theo thời gian
-			frames = 30 * _time; //Tổng số frames
-			double divAffX = affX / frames, 
-				divAffY = affY / frames, 
-				divAffZ = affZ / frames;
+			if (Double.TryParse(tbTime.Text, out _time))
+				frames = 30 * _time; //Tổng số frames
+			else
+				frames = 0;
+
+
+			if (Double.TryParse(tbX.Text, out affX)) //Kiểm tra lỗi nhập vào
+			{
+				if (frames != 0)
+					divAffX = affX / frames;
+				else
+					divAffX = affX;
+			}
+			else
+				divAffX = 0;
+
+			if (Double.TryParse(tbY.Text, out affY))
+			{
+				if (frames != 0)
+					divAffY = affY / frames;
+				else
+					divAffY = affY;
+			}
+			else
+				divAffY = 0;
+
+			if (Double.TryParse(tbZ.Text, out affZ))
+			{
+				if (frames != 0)
+					divAffZ = affZ / frames;
+				else
+					divAffZ = affZ;
+			}
+			else
+				divAffZ = 0;
 			
+			isTransform = true;
 
 			if (cbTransformation.SelectedIndex == 0) // Move
             {
