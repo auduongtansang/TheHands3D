@@ -21,9 +21,11 @@ namespace TheHands3D
 
 		AffineTransform3D affine = new AffineTransform3D();
 		double affX, affY, affZ, _time; //Biến lưu thông số biến đổi, thời gian thực hiện
+		double divAffX, divAffY, divAffZ; //Biến lưu độ chia cho mỗi lần biến đổi
 		double frames, count = 0; //Biến lưu số frame và biến đếm cho biết khi nào biến đổi xong
-		bool isTransform = false;
-        
+		bool isTransform = false; //Biến cho biết có biến đổi không
+		bool skip = false; //Biến bỏ qua chia thời gian khi chọn chế độ scale
+		
         Color userColor = Color.White;
         Shape.ShapeType choosingShape = Shape.ShapeType.NONE;
 
@@ -129,6 +131,12 @@ namespace TheHands3D
 				{
 					for (int i = 0; i < prismatic.vertex.Count; i++)
 						prismatic.vertex[i] = affine.Transform(prismatic.vertex[i]);
+				}
+
+				if (skip) //Bỏ qua thời gian thay đổi kích thước
+				{
+					isTransform = false;
+					_time = 0;
 				}
 				count++; //Tính toán xem khi nào dừng biến đổi
 				if (count >= frames) //Khi cộng các độ chia lại lớn hơn tham số đầu tiên
@@ -264,7 +272,6 @@ namespace TheHands3D
         private void btnTransformation_Click(object sender, EventArgs e)
         {
 			// Thực hiện phép biến đổi affine lên hình được chọn
-			double divAffX, divAffY, divAffZ ;
 			affine.LoadIdentity();
 
 			//30 frame/1s tức là lấy thông số biến đổi chia cho tổng số frame để ra độ tăng theo thời gian
@@ -306,7 +313,7 @@ namespace TheHands3D
 			
 			isTransform = true;
 
-			if (cbTransformation.SelectedIndex == 0) // Move
+			if (cbTransformation.SelectedIndex == 0) //Move
             {
                 affine.Translate(divAffX, divAffY, divAffZ);
             }
@@ -316,9 +323,10 @@ namespace TheHands3D
                 affine.RotateY(divAffY);
                 affine.RotateZ(divAffZ);
             }
-            else if (cbTransformation.SelectedIndex == 2) // Zoom
+            else if (cbTransformation.SelectedIndex == 2) //Scale
             {
-                affine.Scale(divAffX, divAffY, divAffZ);
+				skip = true;
+				affine.Scale(affX, affY, affZ);
             }
         }
 
