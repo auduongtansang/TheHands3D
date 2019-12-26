@@ -27,9 +27,8 @@ namespace TheHands3D
 		public List<Tuple<double, double, double>> vertex;
 		//Tập thứ tự các đỉnh vẽ
 		public List<int> index;
-
-        // 
-        public Tuple<double, double, double> lastAngle = new Tuple<double, double, double> (0,0, 0);
+		
+		public Tuple<double, double, double> lastAngle = new Tuple<double, double, double> (0, 0, 0);
 
 		public Shape(ShapeType userType, Color userColor)
 		{
@@ -97,8 +96,8 @@ namespace TheHands3D
 			{
 				//Vẽ khối lập phương (các mặt chữ nhật)
 				gl.Begin(OpenGL.GL_QUADS);
-				for (int i = 0; i < index.Count; i++)
-					gl.Vertex(vertex[index[i]].Item1, vertex[index[i]].Item2, vertex[index[i]].Item3);
+					for (int i = 0; i < index.Count; i++)
+						gl.Vertex(vertex[index[i]].Item1, vertex[index[i]].Item2, vertex[index[i]].Item3);
 				gl.End();
 			}
 			else if (type == ShapeType.PYRAMID)

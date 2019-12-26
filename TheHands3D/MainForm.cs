@@ -47,7 +47,7 @@ namespace TheHands3D
 			
 			//Xóa toàn bộ drawBoard
 			gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
-        }
+		}
   
 		private void drawBoard_Resized(object sender, EventArgs e)
 		{
