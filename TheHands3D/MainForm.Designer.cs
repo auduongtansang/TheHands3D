@@ -44,7 +44,7 @@
 			this.btnTransformation = new System.Windows.Forms.Button();
 			this.btnChooseTexture = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.time = new System.Windows.Forms.Label();
+			this.lbTime = new System.Windows.Forms.Label();
 			this.tbTime = new System.Windows.Forms.TextBox();
 			this.btnReset = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).BeginInit();
@@ -56,13 +56,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.drawBoard.DrawFPS = false;
-			this.drawBoard.Location = new System.Drawing.Point(0, 37);
-			this.drawBoard.Margin = new System.Windows.Forms.Padding(4);
+			this.drawBoard.Location = new System.Drawing.Point(0, 46);
+			this.drawBoard.Margin = new System.Windows.Forms.Padding(5);
 			this.drawBoard.Name = "drawBoard";
 			this.drawBoard.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
 			this.drawBoard.RenderContextType = SharpGL.RenderContextType.DIBSection;
 			this.drawBoard.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-			this.drawBoard.Size = new System.Drawing.Size(1230, 601);
+			this.drawBoard.Size = new System.Drawing.Size(1254, 761);
 			this.drawBoard.TabIndex = 0;
 			this.drawBoard.OpenGLInitialized += new System.EventHandler(this.drawBoard_OpenGLInitialized);
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
@@ -78,26 +78,29 @@
             "Pyramid",
             "Prismatic",
             "None"});
-			this.cbShape.Location = new System.Drawing.Point(99, 8);
+			this.cbShape.Location = new System.Drawing.Point(132, 10);
+			this.cbShape.Margin = new System.Windows.Forms.Padding(4);
 			this.cbShape.Name = "cbShape";
-			this.cbShape.Size = new System.Drawing.Size(121, 21);
-			this.cbShape.TabIndex = 1;
+			this.cbShape.Size = new System.Drawing.Size(160, 24);
+			this.cbShape.TabIndex = 2;
 			this.cbShape.SelectionChangeCommitted += new System.EventHandler(this.cbShape_SelectionChangeCommitted);
 			// 
 			// lbChoosing
 			// 
 			this.lbChoosing.AutoSize = true;
-			this.lbChoosing.Location = new System.Drawing.Point(10, 11);
+			this.lbChoosing.Location = new System.Drawing.Point(13, 12);
+			this.lbChoosing.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbChoosing.Name = "lbChoosing";
-			this.lbChoosing.Size = new System.Drawing.Size(87, 13);
-			this.lbChoosing.TabIndex = 2;
+			this.lbChoosing.Size = new System.Drawing.Size(115, 17);
+			this.lbChoosing.TabIndex = 1;
 			this.lbChoosing.Text = "Choose a shape:";
 			// 
 			// btnColor
 			// 
-			this.btnColor.Location = new System.Drawing.Point(225, 7);
+			this.btnColor.Location = new System.Drawing.Point(300, 9);
+			this.btnColor.Margin = new System.Windows.Forms.Padding(4);
 			this.btnColor.Name = "btnColor";
-			this.btnColor.Size = new System.Drawing.Size(75, 23);
+			this.btnColor.Size = new System.Drawing.Size(100, 28);
 			this.btnColor.TabIndex = 3;
 			this.btnColor.Text = "Color";
 			this.btnColor.UseVisualStyleBackColor = true;
@@ -107,9 +110,10 @@
 			// 
 			this.lbChoosingTransform.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbChoosingTransform.AutoSize = true;
-			this.lbChoosingTransform.Location = new System.Drawing.Point(355, 12);
+			this.lbChoosingTransform.Location = new System.Drawing.Point(473, 12);
+			this.lbChoosingTransform.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbChoosingTransform.Name = "lbChoosingTransform";
-			this.lbChoosingTransform.Size = new System.Drawing.Size(127, 13);
+			this.lbChoosingTransform.Size = new System.Drawing.Size(171, 17);
 			this.lbChoosingTransform.TabIndex = 4;
 			this.lbChoosingTransform.Text = "Choose a transformation: ";
 			// 
@@ -122,36 +126,40 @@
             "Move",
             "Rotate",
             "Scale"});
-			this.cbTransformation.Location = new System.Drawing.Point(479, 8);
+			this.cbTransformation.Location = new System.Drawing.Point(639, 10);
+			this.cbTransformation.Margin = new System.Windows.Forms.Padding(4);
 			this.cbTransformation.Name = "cbTransformation";
-			this.cbTransformation.Size = new System.Drawing.Size(121, 21);
+			this.cbTransformation.Size = new System.Drawing.Size(160, 24);
 			this.cbTransformation.TabIndex = 5;
 			// 
 			// tbX
 			// 
 			this.tbX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.tbX.Location = new System.Drawing.Point(626, 8);
+			this.tbX.Location = new System.Drawing.Point(835, 10);
+			this.tbX.Margin = new System.Windows.Forms.Padding(4);
 			this.tbX.Name = "tbX";
-			this.tbX.Size = new System.Drawing.Size(30, 20);
-			this.tbX.TabIndex = 6;
+			this.tbX.Size = new System.Drawing.Size(39, 22);
+			this.tbX.TabIndex = 7;
 			// 
 			// lbX
 			// 
 			this.lbX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbX.AutoSize = true;
-			this.lbX.Location = new System.Drawing.Point(611, 12);
+			this.lbX.Location = new System.Drawing.Point(815, 12);
+			this.lbX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbX.Name = "lbX";
-			this.lbX.Size = new System.Drawing.Size(14, 13);
-			this.lbX.TabIndex = 7;
+			this.lbX.Size = new System.Drawing.Size(17, 17);
+			this.lbX.TabIndex = 6;
 			this.lbX.Text = "X";
 			// 
 			// lbY
 			// 
 			this.lbY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbY.AutoSize = true;
-			this.lbY.Location = new System.Drawing.Point(667, 12);
+			this.lbY.Location = new System.Drawing.Point(889, 12);
+			this.lbY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbY.Name = "lbY";
-			this.lbY.Size = new System.Drawing.Size(14, 13);
+			this.lbY.Size = new System.Drawing.Size(17, 17);
 			this.lbY.TabIndex = 8;
 			this.lbY.Text = "Y";
 			// 
@@ -159,46 +167,51 @@
 			// 
 			this.lbZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbZ.AutoSize = true;
-			this.lbZ.Location = new System.Drawing.Point(723, 12);
+			this.lbZ.Location = new System.Drawing.Point(964, 12);
+			this.lbZ.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbZ.Name = "lbZ";
-			this.lbZ.Size = new System.Drawing.Size(14, 13);
-			this.lbZ.TabIndex = 9;
+			this.lbZ.Size = new System.Drawing.Size(17, 17);
+			this.lbZ.TabIndex = 10;
 			this.lbZ.Text = "Z";
 			// 
 			// tbY
 			// 
 			this.tbY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.tbY.Location = new System.Drawing.Point(682, 8);
+			this.tbY.Location = new System.Drawing.Point(909, 10);
+			this.tbY.Margin = new System.Windows.Forms.Padding(4);
 			this.tbY.Name = "tbY";
-			this.tbY.Size = new System.Drawing.Size(30, 20);
-			this.tbY.TabIndex = 10;
+			this.tbY.Size = new System.Drawing.Size(39, 22);
+			this.tbY.TabIndex = 9;
 			// 
 			// tbZ
 			// 
 			this.tbZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.tbZ.Location = new System.Drawing.Point(738, 8);
+			this.tbZ.Location = new System.Drawing.Point(984, 10);
+			this.tbZ.Margin = new System.Windows.Forms.Padding(4);
 			this.tbZ.Name = "tbZ";
-			this.tbZ.Size = new System.Drawing.Size(30, 20);
+			this.tbZ.Size = new System.Drawing.Size(39, 22);
 			this.tbZ.TabIndex = 11;
 			// 
 			// btnTransformation
 			// 
 			this.btnTransformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTransformation.Location = new System.Drawing.Point(1108, 7);
+			this.btnTransformation.Location = new System.Drawing.Point(1144, 7);
+			this.btnTransformation.Margin = new System.Windows.Forms.Padding(4);
 			this.btnTransformation.Name = "btnTransformation";
-			this.btnTransformation.Size = new System.Drawing.Size(75, 23);
-			this.btnTransformation.TabIndex = 12;
+			this.btnTransformation.Size = new System.Drawing.Size(100, 28);
+			this.btnTransformation.TabIndex = 14;
 			this.btnTransformation.Text = "Transform";
 			this.btnTransformation.UseVisualStyleBackColor = true;
 			this.btnTransformation.Click += new System.EventHandler(this.btnTransformation_Click);
 			// 
 			// btnChooseTexture
-			//
+			// 
 			this.btnChooseTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnChooseTexture.Location = new System.Drawing.Point(1054, 529);
+			this.btnChooseTexture.Location = new System.Drawing.Point(1120, 812);
+			this.btnChooseTexture.Margin = new System.Windows.Forms.Padding(4);
 			this.btnChooseTexture.Name = "btnChooseTexture";
-			this.btnChooseTexture.Size = new System.Drawing.Size(126, 27);
-			this.btnChooseTexture.TabIndex = 13;
+			this.btnChooseTexture.Size = new System.Drawing.Size(120, 33);
+			this.btnChooseTexture.TabIndex = 15;
 			this.btnChooseTexture.Text = "Choose texture";
 			this.btnChooseTexture.UseVisualStyleBackColor = true;
 			this.btnChooseTexture.Click += new System.EventHandler(this.btnChooseTexture_Click);
@@ -209,36 +222,41 @@
 			// 
 			// lbTime
 			// 
+			this.lbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbTime.AutoSize = true;
-			this.lbTime.Location = new System.Drawing.Point(1006, 16);
+			this.lbTime.Location = new System.Drawing.Point(1042, 12);
+			this.lbTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbTime.Name = "lbTime";
 			this.lbTime.Size = new System.Drawing.Size(39, 17);
-			this.lbTime.TabIndex = 14;
+			this.lbTime.TabIndex = 12;
 			this.lbTime.Text = "Time";
 			// 
 			// tbTime
 			// 
-			this.tbTime.Location = new System.Drawing.Point(1047, 11);
+			this.tbTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tbTime.Location = new System.Drawing.Point(1085, 10);
+			this.tbTime.Margin = new System.Windows.Forms.Padding(4);
 			this.tbTime.Name = "tbTime";
-			this.tbTime.Size = new System.Drawing.Size(39, 22);
-			this.tbTime.TabIndex = 15;
+			this.tbTime.Size = new System.Drawing.Size(51, 22);
+			this.tbTime.TabIndex = 13;
 			// 
 			// btnReset
 			// 
 			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnReset.Location = new System.Drawing.Point(964, 653);
+			this.btnReset.Location = new System.Drawing.Point(1000, 812);
+			this.btnReset.Margin = new System.Windows.Forms.Padding(4);
 			this.btnReset.Name = "btnReset";
-			this.btnReset.Size = new System.Drawing.Size(84, 33);
+			this.btnReset.Size = new System.Drawing.Size(112, 33);
 			this.btnReset.TabIndex = 16;
 			this.btnReset.Text = "Reset";
 			this.btnReset.UseVisualStyleBackColor = true;
 			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
-			// mainForm
+			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1230, 690);
+			this.ClientSize = new System.Drawing.Size(1254, 849);
 			this.Controls.Add(this.btnReset);
 			this.Controls.Add(this.tbTime);
 			this.Controls.Add(this.lbTime);
@@ -256,7 +274,8 @@
 			this.Controls.Add(this.lbChoosing);
 			this.Controls.Add(this.cbShape);
 			this.Controls.Add(this.drawBoard);
-			this.MinimumSize = new System.Drawing.Size(672, 565);
+			this.Margin = new System.Windows.Forms.Padding(4);
+			this.MinimumSize = new System.Drawing.Size(890, 685);
 			this.Name = "MainForm";
 			this.Text = "TheHands3D";
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).EndInit();
