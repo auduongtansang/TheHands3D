@@ -44,6 +44,9 @@
 			this.btnTransformation = new System.Windows.Forms.Button();
 			this.btnChooseTexture = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.time = new System.Windows.Forms.Label();
+			this.tbTime = new System.Windows.Forms.TextBox();
+			this.btnReset = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.drawBoard)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -59,7 +62,7 @@
 			this.drawBoard.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
 			this.drawBoard.RenderContextType = SharpGL.RenderContextType.DIBSection;
 			this.drawBoard.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-			this.drawBoard.Size = new System.Drawing.Size(858, 488);
+			this.drawBoard.Size = new System.Drawing.Size(1230, 601);
 			this.drawBoard.TabIndex = 0;
 			this.drawBoard.OpenGLInitialized += new System.EventHandler(this.drawBoard_OpenGLInitialized);
 			this.drawBoard.OpenGLDraw += new SharpGL.RenderEventHandler(this.drawBoard_OpenGLDraw);
@@ -116,7 +119,7 @@
 			this.cbTransformation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbTransformation.FormattingEnabled = true;
 			this.cbTransformation.Items.AddRange(new object[] {
-            "Position",
+            "Move",
             "Rotate",
             "Scale"});
 			this.cbTransformation.Location = new System.Drawing.Point(479, 8);
@@ -181,7 +184,7 @@
 			// btnTransformation
 			// 
 			this.btnTransformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTransformation.Location = new System.Drawing.Point(780, 7);
+			this.btnTransformation.Location = new System.Drawing.Point(1108, 7);
 			this.btnTransformation.Name = "btnTransformation";
 			this.btnTransformation.Size = new System.Drawing.Size(75, 23);
 			this.btnTransformation.TabIndex = 12;
@@ -190,26 +193,55 @@
 			this.btnTransformation.Click += new System.EventHandler(this.btnTransformation_Click);
 			// 
 			// btnChooseTexture
-			// 
+			//
 			this.btnChooseTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnChooseTexture.Location = new System.Drawing.Point(730, 529);
-			this.btnChooseTexture.Margin = new System.Windows.Forms.Padding(2);
+			this.btnChooseTexture.Location = new System.Drawing.Point(1054, 529);
 			this.btnChooseTexture.Name = "btnChooseTexture";
 			this.btnChooseTexture.Size = new System.Drawing.Size(126, 27);
 			this.btnChooseTexture.TabIndex = 13;
 			this.btnChooseTexture.Text = "Choose texture";
 			this.btnChooseTexture.UseVisualStyleBackColor = true;
-			this.btnChooseTexture.Click += new System.EventHandler(this.btnChooseImage_Click);
+			this.btnChooseTexture.Click += new System.EventHandler(this.btnChooseTexture_Click);
 			// 
 			// openFileDialog
 			// 
-			this.openFileDialog.FileName = "openFileDialog1";
+			this.openFileDialog.FileName = "openFileDialog";
 			// 
-			// MainForm
+			// lbTime
+			// 
+			this.lbTime.AutoSize = true;
+			this.lbTime.Location = new System.Drawing.Point(1006, 16);
+			this.lbTime.Name = "lbTime";
+			this.lbTime.Size = new System.Drawing.Size(39, 17);
+			this.lbTime.TabIndex = 14;
+			this.lbTime.Text = "Time";
+			// 
+			// tbTime
+			// 
+			this.tbTime.Location = new System.Drawing.Point(1047, 11);
+			this.tbTime.Name = "tbTime";
+			this.tbTime.Size = new System.Drawing.Size(39, 22);
+			this.tbTime.TabIndex = 15;
+			// 
+			// btnReset
+			// 
+			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReset.Location = new System.Drawing.Point(964, 653);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(84, 33);
+			this.btnReset.TabIndex = 16;
+			this.btnReset.Text = "Reset";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+			// 
+			// mainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(858, 561);
+			this.ClientSize = new System.Drawing.Size(1230, 690);
+			this.Controls.Add(this.btnReset);
+			this.Controls.Add(this.tbTime);
+			this.Controls.Add(this.lbTime);
 			this.Controls.Add(this.btnChooseTexture);
 			this.Controls.Add(this.btnTransformation);
 			this.Controls.Add(this.tbZ);
@@ -251,6 +283,9 @@
         private System.Windows.Forms.Button btnTransformation;
 		private System.Windows.Forms.Button btnChooseTexture;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		private System.Windows.Forms.Label lbTime;
+		private System.Windows.Forms.TextBox tbTime;
+		private System.Windows.Forms.Button btnReset;
 	}
 }
 

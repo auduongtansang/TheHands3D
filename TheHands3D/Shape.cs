@@ -53,7 +53,7 @@ namespace TheHands3D
 				vertex.Add(new Tuple<double, double, double>(2, 2, h));
 				vertex.Add(new Tuple<double, double, double>(2, 0, h));
 
-				//Thứ tự vẽ (đáy trên, đáy dưới, mặt trái, mặt phải, mặt trước, mặt sau)
+				//Thứ tự vẽ (đáy duoi, đáy dưới, mặt trái, mặt phải, mặt trước, mặt sau)
 				index = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 2, 3, 7, 6, 1, 2, 6, 5, 0, 3, 7, 4 };
 			}
 			else if (type == ShapeType.PYRAMID)
